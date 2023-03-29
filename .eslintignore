@@ -1,0 +1,6 @@
+.next
+.now
+__generated__
+vendor
+commitlint.config.js
+next.config.js

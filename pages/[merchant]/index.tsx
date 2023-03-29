@@ -3,7 +3,7 @@ import React from 'react'
 
 const Page: NextPage = () => (
   <>
-    <div>Helo World!</div>
+    <div>Hollo World!</div>
   </>
 )
 
