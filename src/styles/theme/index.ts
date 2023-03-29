@@ -5,10 +5,9 @@ import { globalStyles } from '../globalStyles'
 
 export const theme = createTheme({
   palette: {
-    // background: { default: '#f5f5f5' },
     primary: { main: indigo[900] },
     error: { main: red[900] },
-    text: { primary: grey[800] },
+    text: { primary: grey[900] },
   },
   shape: { borderRadius: 8 },
   typography: { fontSize: 14 },

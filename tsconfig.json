@@ -19,6 +19,11 @@
       "@texas/*": ["src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/utils/stores/main/types/redux-action"
+  ],
   "exclude": ["node_modules"]
 }

@@ -20,10 +20,8 @@ export default function RootLayout(props: React.PropsWithChildren) {
             >
               <tbody>
                 <tr>
-                  <td valign="top">
-                    <main style={{ height: '100vh', overflow: 'scroll', padding: '0 24px' }}>
-                      {children}
-                    </main>
+                  <td valign="top" style={{ height: '100vh', overflow: 'scroll' }}>
+                    {children}
                   </td>
                 </tr>
               </tbody>
