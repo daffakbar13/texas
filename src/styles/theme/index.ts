@@ -5,7 +5,7 @@ import { globalStyles } from '../globalStyles'
 
 export const theme = createTheme({
   palette: {
-    primary: { main: indigo[900] },
+    primary: { main: '#006752' },
     error: { main: red[900] },
     text: { primary: grey[900] },
   },

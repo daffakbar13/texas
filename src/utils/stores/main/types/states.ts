@@ -4,5 +4,4 @@ export type MainStates = {
   rightContent: number
   leftContent: number
   sideOffset: number
-  isOnSearch: boolean
 }

@@ -7,7 +7,9 @@ export default function SectionMain(props: React.PropsWithChildren) {
     <Box
       component="main"
       display="flex"
+      height="calc(100% - 56px - 16px)"
       width="100%"
+      overflow="hidden"
       flexDirection="column"
       gap={2}
       paddingLeft={2}

@@ -7,5 +7,4 @@ export type MainActions = {
   openMainDrawer(event: TogleEvent): void
   closeMainDrawer(event: TogleEvent): void
   handleLeftRightContent(document: Document): void
-  setOnSearch(value: boolean): void
 }

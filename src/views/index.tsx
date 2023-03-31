@@ -1,1 +1,1 @@
-export { default as ServingList } from './serving-list'
+export { default as Product } from './product'

@@ -3,9 +3,8 @@ import { MainStates } from './types/states'
 import { MainActions } from './types/actions'
 
 const useMainStore = create<MainActions & MainStates>()((set, get) => ({
-  contentWidth: 600,
+  contentWidth: 480,
   isMainDrawerOpen: false,
-  isOnSearch: false,
   leftContent: 0,
   rightContent: 0,
   sideOffset: 0,
@@ -49,7 +48,7 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
           sideOffset: newSideOffset,
         }))
       }
-    } else {
+    } else if (sideOffset !== 0) {
       set(() => ({
         leftContent: 0,
         rightContent: 0,
@@ -57,7 +56,6 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
       }))
     }
   },
-  setOnSearch: (value) => set(() => ({ isOnSearch: value })),
 }))
 
 export default useMainStore
