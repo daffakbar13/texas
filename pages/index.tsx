@@ -5,7 +5,12 @@ import React from 'react'
 const Page: NextPage = () => (
   <>
     <div>Helo World!</div>
-    <Link href={{ pathname: '/[merchant]/serving-lists', query: { merchant: 'ruangtidur' } }}>
+    <Link
+      href={{
+        pathname: '/[merchant]/product/[view_mode]',
+        query: { merchant: 'starbucks', view_mode: 'list' },
+      }}
+    >
       Go To List
     </Link>
   </>
