@@ -6,6 +6,8 @@ import { ILDummyPromoBanner } from '@texas/assets'
 import ListRoundedIcon from '@mui/icons-material/ListRounded'
 import { useRouter } from 'next/router'
 import useProductStore from '@texas/utils/stores/product'
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
+import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import { SERVING_DUMMY } from './constants'
 
 export default function Product() {
@@ -44,7 +46,7 @@ export default function Product() {
         overflow="hidden"
         sx={{ height: isOnSearch ? 0 : '100%', transitionDuration: '300ms' }}
       >
-        <Box width="100%" height={96} position="relative">
+        <Box width="100%" height={144} position="relative">
           <Image
             src={ILDummyPromoBanner.src}
             alt="Promo Banner"
@@ -150,7 +152,7 @@ export default function Product() {
                       <Box display="flex" alignItems="center" gap={0.5}>
                         <Typography
                           sx={{
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: 'bold',
                             color: 'grey.600',
                             textDecorationLine: 'line-through',
@@ -160,13 +162,31 @@ export default function Product() {
                         </Typography>
                         <Typography
                           sx={{
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: 'bold',
                             color: 'primary.main',
                           }}
                         >
                           {s.servingNett.toLocaleString()}
                         </Typography>
+                        <Box
+                          padding="4px 8px"
+                          bgcolor="error.main"
+                          color="white"
+                          fontSize={11}
+                          borderRadius="12.25px"
+                        >
+                          Promo
+                        </Box>
+                      </Box>
+                      <Box display="flex" justifyContent="end">
+                        <Box display="flex" alignItems="center" gap={1} color="primary.main">
+                          <RemoveCircleOutlineRoundedIcon />
+                          <Typography sx={{ fontSize: 14, fontWeight: 'bold', lineHeight: '16px' }}>
+                            1
+                          </Typography>
+                          <AddCircleOutlineRoundedIcon />
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
