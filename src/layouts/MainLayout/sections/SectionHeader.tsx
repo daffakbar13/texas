@@ -36,6 +36,7 @@ export default function SectionHeader() {
             alt="Poslive Logo"
             width={ICStarbucksLogo.width / (ICStarbucksLogo.height / 40)}
             height={40}
+            onClick={() => router.push('/')}
           />
         </Box>
         <IconButton onClick={openMainDrawer}>

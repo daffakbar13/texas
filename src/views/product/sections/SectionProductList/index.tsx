@@ -42,10 +42,17 @@ export default function SectionProductList() {
         <TexasButton variant="outlined" sx={{ padding: 0.5, minWidth: 0 }}>
           <ListRoundedIcon />
         </TexasButton>
-        <Box display="flex" gap={1} width="100%" overflow="scroll">
+        <Box
+          id="product-tab-scrollable-wrapper"
+          display="flex"
+          gap={1}
+          width="100%"
+          overflow="scroll"
+        >
           {productList.map((e, i) => (
             <TexasButton
               key={i}
+              id={`product-tab-${i + 1}`}
               variant={activeTab === i + 1 ? 'contained' : 'outlined'}
               onClick={() => onClickTabProductList(i)}
               sx={{ transitionDuration: '300ms' }}

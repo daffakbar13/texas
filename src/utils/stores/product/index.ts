@@ -47,34 +47,51 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     }
   },
   getProductCategoryDocument: (i) => document.getElementById(`product-category-${i + 1}`),
+  getProductTabDocument: (i) => document.getElementById(`product-tab-${i + 1}`),
+  getProductListWrapperDocument: () => document.getElementById('product-list-wrapper'),
+  getProductTabScrollableWrapperDocument: () =>
+    document.getElementById('product-tab-scrollable-wrapper'),
   onClickTabProductList: (i) => {
     const { productScrollTo } = get()
     set(({ allProductOffsetTop }) => {
       productScrollTo(allProductOffsetTop[i])
-      return { activeTab: i + 1 }
+      return {}
     })
   },
   onScrollProductList: (e) => {
+    const { tabScrollTo } = get()
     const { scrollTop } = e.target as any
-    set(({ allProductOffsetTop }) => {
-      const activeTab = allProductOffsetTop.findLastIndex((o) => scrollTop >= o - 64) + 1
-      return { activeTab }
+    set(({ activeTab, allProductOffsetTop }) => {
+      const newActiveTab = allProductOffsetTop.findLastIndex((o) => scrollTop >= o - 128) + 1
+      if (activeTab !== newActiveTab) {
+        tabScrollTo(newActiveTab - 1)
+      }
+      return { activeTab: newActiveTab }
     })
   },
   productScrollTo: (top) => {
-    const productListWrapper = document.getElementById('product-list-wrapper')
+    const { getProductListWrapperDocument } = get()
+    const productListWrapper = getProductListWrapperDocument()
     productListWrapper?.scrollTo({ top, behavior: 'smooth' })
   },
   productScrollListener: () => {
-    const { getProductCategoryDocument } = get()
+    const { getProductCategoryDocument, getProductListWrapperDocument } = get()
     set(({ productList }) => {
-      const productListWrapper = document.getElementById('product-list-wrapper')
+      const productListWrapper = getProductListWrapperDocument()
       const allProductOffsetTop = productList.map((_, i) => {
         const productCategory = getProductCategoryDocument(i)
         return (productCategory?.offsetTop || 0) - (productListWrapper?.offsetTop || 0)
       })
       return { allProductOffsetTop }
     })
+  },
+  tabScrollTo: (i) => {
+    const { getProductTabScrollableWrapperDocument, getProductTabDocument } = get()
+    const wrapper = getProductTabScrollableWrapperDocument()
+    const currentTab = getProductTabDocument(i)
+    const offsetLeft = (currentTab?.offsetLeft || 0) - (wrapper?.offsetLeft || 0)
+
+    wrapper?.scrollTo({ left: offsetLeft - 32, behavior: 'smooth' })
   },
 }))
 

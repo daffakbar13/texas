@@ -9,7 +9,11 @@ export type ProductActions = {
   filterServing(value: string): void
   productScrollListener(): void
   productScrollTo(value: number): void
+  tabScrollTo(index: number): void
   onClickTabProductList(index: number): void
   onScrollProductList(e: React.UIEvent<HTMLDivElement, UIEvent>): void
   getProductCategoryDocument(index: number): ReturnType<typeof document.getElementById>
+  getProductTabDocument(index: number): ReturnType<typeof document.getElementById>
+  getProductListWrapperDocument(): ReturnType<typeof document.getElementById>
+  getProductTabScrollableWrapperDocument(): ReturnType<typeof document.getElementById>
 }
