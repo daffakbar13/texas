@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Box } from '@mui/material'
-import { ILDummyPromoBanner } from '@texas/assets'
+import {
+  ILDummyPromoBanner1,
+  ILDummyPromoBanner2,
+  ILDummyPromoBanner3,
+  ILDummyPromoBanner4,
+  ILDummyPromoBanner5,
+} from '@texas/assets'
 import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -23,7 +29,7 @@ export default function SectionPromoBanner() {
         {...(isOnSearch && { display: 'none' })}
       >
         <Image
-          src={ILDummyPromoBanner.src}
+          src={ILDummyPromoBanner1.src}
           alt="Promo Banner"
           fill
           objectFit="cover"
@@ -37,7 +43,7 @@ export default function SectionPromoBanner() {
         {...(isOnSearch && { display: 'none' })}
       >
         <Image
-          src={ILDummyPromoBanner.src}
+          src={ILDummyPromoBanner2.src}
           alt="Promo Banner"
           fill
           objectFit="cover"
@@ -51,7 +57,7 @@ export default function SectionPromoBanner() {
         {...(isOnSearch && { display: 'none' })}
       >
         <Image
-          src={ILDummyPromoBanner.src}
+          src={ILDummyPromoBanner3.src}
           alt="Promo Banner"
           fill
           objectFit="cover"
@@ -65,7 +71,7 @@ export default function SectionPromoBanner() {
         {...(isOnSearch && { display: 'none' })}
       >
         <Image
-          src={ILDummyPromoBanner.src}
+          src={ILDummyPromoBanner4.src}
           alt="Promo Banner"
           fill
           objectFit="cover"
@@ -79,7 +85,7 @@ export default function SectionPromoBanner() {
         {...(isOnSearch && { display: 'none' })}
       >
         <Image
-          src={ILDummyPromoBanner.src}
+          src={ILDummyPromoBanner5.src}
           alt="Promo Banner"
           fill
           objectFit="cover"
