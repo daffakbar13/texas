@@ -12,12 +12,13 @@ export default function SectionPromoBanner() {
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
   const carouselWidth = contentWidth - 32
+  const carouselHeight = carouselWidth / 2.76
 
   return (
     <Carousel infiniteLoop showStatus={false} showThumbs={false} autoPlay>
       <Box
         width="100%"
-        height={carouselWidth / 4}
+        height={carouselHeight}
         position="relative"
         {...(isOnSearch && { display: 'none' })}
       >
@@ -31,7 +32,7 @@ export default function SectionPromoBanner() {
       </Box>
       <Box
         width="100%"
-        height={carouselWidth / 4}
+        height={carouselHeight}
         position="relative"
         {...(isOnSearch && { display: 'none' })}
       >
@@ -45,7 +46,7 @@ export default function SectionPromoBanner() {
       </Box>
       <Box
         width="100%"
-        height={carouselWidth / 4}
+        height={carouselHeight}
         position="relative"
         {...(isOnSearch && { display: 'none' })}
       >
@@ -59,7 +60,7 @@ export default function SectionPromoBanner() {
       </Box>
       <Box
         width="100%"
-        height={carouselWidth / 4}
+        height={carouselHeight}
         position="relative"
         {...(isOnSearch && { display: 'none' })}
       >
@@ -73,7 +74,7 @@ export default function SectionPromoBanner() {
       </Box>
       <Box
         width="100%"
-        height={carouselWidth / 4}
+        height={carouselHeight}
         position="relative"
         {...(isOnSearch && { display: 'none' })}
       >
