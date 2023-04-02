@@ -6,13 +6,14 @@ import { useMainStore } from '@texas/utils/stores'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import React from 'react'
+import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 
 export default function App({ Component, pageProps }: AppProps) {
   const { handleLeftRightContent } = useMainStore()
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      handleLeftRightContent(document)
+      handleLeftRightContent()
     }, 1)
 
     return () => clearInterval(interval)

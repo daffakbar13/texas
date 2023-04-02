@@ -3,7 +3,8 @@ import { MainStates } from './types/states'
 import { MainActions } from './types/actions'
 
 const useMainStore = create<MainActions & MainStates>()((set, get) => ({
-  contentWidth: 480,
+  contentWidth: 0,
+  maxContentWidth: 480,
   isMainDrawerOpen: false,
   leftContent: 0,
   rightContent: 0,
@@ -31,29 +32,33 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
       togleMainDrawer(false)(event)
       return {}
     }),
-  handleLeftRightContent: (document) => {
-    const { contentWidth, sideOffset } = get()
+  handleLeftRightContent: () => {
+    const { maxContentWidth, sideOffset } = get()
     const { clientWidth } = document.body
 
-    if (clientWidth > contentWidth) {
-      const newSideOffset = (clientWidth - contentWidth) / 2
+    if (clientWidth > maxContentWidth) {
+      const newSideOffset = (clientWidth - maxContentWidth) / 2
       const newLeftContent = newSideOffset
-      const newRightContent = contentWidth - newSideOffset
+      const newRightContent = maxContentWidth - newSideOffset
       const isNotSame = newSideOffset !== sideOffset
 
       if (isNotSame) {
         set(() => ({
+          contentWidth: maxContentWidth,
           leftContent: newLeftContent,
           rightContent: newRightContent,
           sideOffset: newSideOffset,
         }))
       }
-    } else if (sideOffset !== 0) {
-      set(() => ({
-        leftContent: 0,
-        rightContent: 0,
-        sideOffset: 0,
-      }))
+    } else {
+      set({ contentWidth: clientWidth })
+      if (sideOffset !== 0) {
+        set(() => ({
+          leftContent: 0,
+          rightContent: 0,
+          sideOffset: 0,
+        }))
+      }
     }
   },
 }))
