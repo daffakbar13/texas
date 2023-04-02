@@ -38,13 +38,43 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     filterServing(value)
     changeViewMode(isNullValue ? 'list' : 'search', router)
   },
-  changeViewMode: (viewMode, router) => {
-    if (router.query.view_mode !== viewMode) {
+  changeViewMode: (view_mode, router) => {
+    if (router.query.view_mode !== view_mode) {
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, view_mode: viewMode },
+        query: { ...router.query, view_mode },
       })
     }
+  },
+  getProductCategoryDocument: (i) => document.getElementById(`product-category-${i + 1}`),
+  onClickTabProductList: (i) => {
+    const { productScrollTo } = get()
+    set(({ allProductOffsetTop }) => {
+      productScrollTo(allProductOffsetTop[i])
+      return { activeTab: i + 1 }
+    })
+  },
+  onScrollProductList: (e) => {
+    const { scrollTop } = e.target as any
+    set(({ allProductOffsetTop }) => {
+      const activeTab = allProductOffsetTop.findLastIndex((o) => scrollTop >= o - 64) + 1
+      return { activeTab }
+    })
+  },
+  productScrollTo: (top) => {
+    const productListWrapper = document.getElementById('product-list-wrapper')
+    productListWrapper?.scrollTo({ top, behavior: 'smooth' })
+  },
+  productScrollListener: () => {
+    const { getProductCategoryDocument } = get()
+    set(({ productList }) => {
+      const productListWrapper = document.getElementById('product-list-wrapper')
+      const allProductOffsetTop = productList.map((_, i) => {
+        const productCategory = getProductCategoryDocument(i)
+        return (productCategory?.offsetTop || 0) - (productListWrapper?.offsetTop || 0)
+      })
+      return { allProductOffsetTop }
+    })
   },
 }))
 

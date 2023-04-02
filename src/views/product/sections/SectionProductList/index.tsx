@@ -7,7 +7,6 @@ import Image from 'next/image'
 import { TexasButton } from '@texas/components'
 import useProductStore from '@texas/utils/stores/product'
 import { useRouter } from 'next/router'
-import { SERVING_DUMMY } from '../../constants'
 import { ProductListContainer } from './ProductListContainer'
 import { ProductTabWrapper } from './ProductTabWrapper'
 import { ProductListWrapper } from './ProductListWrapper'
@@ -21,20 +20,22 @@ import { ProductNettText } from './ProductNettText'
 import { PromoLabel } from './PromoLabel'
 
 export default function SectionProductList() {
-  const { productList, productListFiltered } = useProductStore()
+  const {
+    activeTab,
+    productList,
+    productListFiltered,
+    onClickTabProductList,
+    onScrollProductList,
+    productScrollListener,
+  } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
   const hideOnSearch = { ...(isOnSearch && { display: 'none' }) }
 
-  //   React.useEffect(() => {
-  //     SERVING_DUMMY.forEach((_, i) => {
-  //       const a = document.getElementById(`product-category-${i + 1}`)
-  //       console.log(a?.offsetTop)
-  //     })
-  //     const b = document.getElementById('product-list-wrapper')
-  //     b?.scrollTo({ behavior: 'smooth', top: 802 - 290 })
-  //     // window.scrollTo({ top: 802 })
-  //   }, [])
+  React.useEffect(() => {
+    productScrollListener()
+  }, [productList])
+
   return (
     <ProductListContainer>
       <ProductTabWrapper sx={hideOnSearch}>
@@ -42,17 +43,19 @@ export default function SectionProductList() {
           <ListRoundedIcon />
         </TexasButton>
         <Box display="flex" gap={1} width="100%" overflow="scroll">
-          {SERVING_DUMMY.map((e, i) => (
-            <TexasButton key={i} variant={i === 0 ? 'contained' : 'outlined'}>
+          {productList.map((e, i) => (
+            <TexasButton
+              key={i}
+              variant={activeTab === i + 1 ? 'contained' : 'outlined'}
+              onClick={() => onClickTabProductList(i)}
+              sx={{ transitionDuration: '300ms' }}
+            >
               {e.servingCategoryName}
             </TexasButton>
           ))}
         </Box>
       </ProductTabWrapper>
-      <ProductListWrapper
-        id="product-list-wrapper"
-        // onScroll={(e) => console.log('oke', (e.target as any).scrollTop)}
-      >
+      <ProductListWrapper id="product-list-wrapper" onScroll={onScrollProductList}>
         {(isOnSearch ? productListFiltered : productList).map((e, i) => (
           <React.Fragment key={i}>
             <ProductCategoryWrapper id={`product-category-${i + 1}`} sx={hideOnSearch}>
