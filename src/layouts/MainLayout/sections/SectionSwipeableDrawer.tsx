@@ -1,15 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
-import List from '@mui/material/List'
-import Divider from '@mui/material/Divider'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MailIcon from '@mui/icons-material/Mail'
 import { useMainStore } from '@texas/utils/stores'
+import Typography from '@mui/material/Typography'
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
+import DinnerDiningRoundedIcon from '@mui/icons-material/DinnerDiningRounded'
 
 export default function SwipeableTemporaryDrawer() {
   const { isMainDrawerOpen, openMainDrawer, closeMainDrawer, sideOffset } = useMainStore()
@@ -28,32 +23,27 @@ export default function SwipeableTemporaryDrawer() {
       }}
     >
       <Box
-        sx={{ width: 250 }}
+        sx={{ width: 220 }}
         role="presentation"
         onClick={closeMainDrawer}
         onKeyDown={closeMainDrawer}
+        display="flex"
+        flexDirection="column"
+        gap={3}
+        height="100vh"
+        padding={2}
       >
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>Hi, Daffa Akbar</Typography>
+        <Box display="flex" flexDirection="column" gap={2}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <DinnerDiningRoundedIcon />
+            <Typography>My Order</Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1} color="error.main">
+            <LogoutRoundedIcon sx={{ color: 'error.main' }} />
+            <Typography>Sign Out</Typography>
+          </Box>
+        </Box>
       </Box>
     </SwipeableDrawer>
   )
