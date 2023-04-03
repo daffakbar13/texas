@@ -33,7 +33,7 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
       return {}
     }),
   handleLeftRightContent: () => {
-    const { maxContentWidth, sideOffset } = get()
+    const { contentWidth, maxContentWidth, sideOffset } = get()
     const { clientWidth } = document.body
 
     if (clientWidth > maxContentWidth) {
@@ -51,13 +51,11 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
         }))
       }
     } else {
-      set({ contentWidth: clientWidth })
+      if (contentWidth !== clientWidth) {
+        set({ contentWidth: clientWidth })
+      }
       if (sideOffset !== 0) {
-        set(() => ({
-          leftContent: 0,
-          rightContent: 0,
-          sideOffset: 0,
-        }))
+        set(() => ({ leftContent: 0, rightContent: 0, sideOffset: 0 }))
       }
     }
   },

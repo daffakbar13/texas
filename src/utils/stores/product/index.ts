@@ -40,10 +40,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   },
   changeViewMode: (view_mode, router) => {
     if (router.query.view_mode !== view_mode) {
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, view_mode },
-      })
+      router.push({ query: { ...router.query, view_mode } })
     }
   },
   getProductCategoryDocument: (i) => document.getElementById(`product-category-${i + 1}`),
