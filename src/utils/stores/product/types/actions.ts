@@ -16,4 +16,6 @@ export type ProductActions = {
   getProductTabDocument(index: number): ReturnType<typeof document.getElementById>
   getProductListWrapperDocument(): ReturnType<typeof document.getElementById>
   getProductTabScrollableWrapperDocument(): ReturnType<typeof document.getElementById>
+  openDrawerVariant(categoryIndex: number, itemIndex: number): void
+  closeDrawerVariant(): void
 }

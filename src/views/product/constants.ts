@@ -11,17 +11,48 @@ import {
   ILDummyServing9,
 } from '@texas/assets'
 
+const VARIANT_ITEMS_DUMMY = [
+  { variantName: 'Sauce BBQ', price: 2000 },
+  { variantName: 'Sauce Blackpepper', price: 2000 },
+  { variantName: 'Sauce Tomato', price: 0 },
+]
+
+const VARIANT_GROUP_DUMMY = [
+  {
+    variantGroupName: 'Sauce Variants',
+    isHaveMinimumChoice: true,
+    isHaveMaximumChoice: false,
+    minimumChoice: 1,
+    maximumChoice: 0,
+    variantItems: VARIANT_ITEMS_DUMMY,
+  },
+  {
+    variantGroupName: 'Hot/Ice',
+    isHaveMinimumChoice: true,
+    isHaveMaximumChoice: true,
+    minimumChoice: 1,
+    maximumChoice: 1,
+    variantItems: VARIANT_ITEMS_DUMMY,
+  },
+  {
+    variantGroupName: 'Extra Toppings',
+    isHaveMinimumChoice: false,
+    isHaveMaximumChoice: true,
+    minimumChoice: 0,
+    maximumChoice: 2,
+    variantItems: VARIANT_ITEMS_DUMMY,
+  },
+  {
+    variantGroupName: 'Others',
+    isHaveMinimumChoice: false,
+    isHaveMaximumChoice: false,
+    minimumChoice: 0,
+    maximumChoice: 0,
+    variantItems: VARIANT_ITEMS_DUMMY,
+  },
+]
+
 const SERVING_ITEMS_DUMMY = [
-  // {
-  //   servingName: 'B1G1 - Beli P. Combo Sicobek Sambal Insecure (Tomat) GRATIS Mango Milk',
-  //   servingDescription:
-  //     'BELI Nasi + 1pcs Ayam Crispy Sambal Insecure (Tomat) Yang Dicobek
-  //  Dadakan Diatas Bara Api Sehingga Rasa Yang Dihasilkan Masih Hangat GRATIS Mango Milk',
-  //   servingPrice: 34000,
-  //   servingDiscount: 2000,
-  //   servingNett: 32000,
-  //   servingImage: ILDummyServing.src,
-  // },
   {
     servingName: 'Air Fryer Pizza',
     servingDescription:
@@ -30,6 +61,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 10827,
     servingImage: ILDummyServing1.src,
+    isHaveVariants: true,
+    variantLists: VARIANT_GROUP_DUMMY,
+    cartSummary: [],
   },
   {
     servingName: 'Tuscan Tortellini Soup',
@@ -39,6 +73,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 73873,
     servingImage: ILDummyServing2.src,
+    isHaveVariants: false,
+    variantLists: [],
+    cartSummary: [],
   },
   {
     servingName: 'Tuscan Spaghetti Squash',
@@ -48,6 +85,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 35468,
     servingImage: ILDummyServing3.src,
+    isHaveVariants: true,
+    variantLists: VARIANT_GROUP_DUMMY,
+    cartSummary: [],
   },
   {
     servingName: '5-Cheese Marinara',
@@ -57,6 +97,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 76548,
     servingImage: ILDummyServing4.src,
+    isHaveVariants: false,
+    variantLists: [],
+    cartSummary: [],
   },
   {
     servingName: 'Chicken Marsala',
@@ -66,6 +109,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 75426,
     servingImage: ILDummyServing5.src,
+    isHaveVariants: true,
+    variantLists: VARIANT_GROUP_DUMMY,
+    cartSummary: [],
   },
   {
     servingName: 'Homemade Ricotta',
@@ -75,6 +121,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 115462,
     servingImage: ILDummyServing6.src,
+    isHaveVariants: false,
+    variantLists: [],
+    cartSummary: [],
   },
   {
     servingName: 'Easy Carbonara',
@@ -84,6 +133,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 54213,
     servingImage: ILDummyServing7.src,
+    isHaveVariants: true,
+    variantLists: VARIANT_GROUP_DUMMY,
+    cartSummary: [],
   },
   {
     servingName: 'Caprese Lasagna Roll-Ups',
@@ -93,6 +145,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 43215,
     servingImage: ILDummyServing8.src,
+    isHaveVariants: false,
+    variantLists: [],
+    cartSummary: [],
   },
   {
     servingName: 'Perfect Lasagna',
@@ -102,6 +157,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 76543,
     servingImage: ILDummyServing9.src,
+    isHaveVariants: true,
+    variantLists: VARIANT_GROUP_DUMMY,
+    cartSummary: [],
   },
   {
     servingName: 'Best-Ever Italian Meatballs',
@@ -111,6 +169,9 @@ const SERVING_ITEMS_DUMMY = [
     servingDiscount: 2000,
     servingNett: 65432,
     servingImage: ILDummyServing10.src,
+    isHaveVariants: false,
+    variantLists: [],
+    cartSummary: [],
   },
 ]
 

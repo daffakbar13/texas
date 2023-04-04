@@ -9,6 +9,9 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   searchKeyword: '',
   productList: SERVING_DUMMY,
   productListFiltered: [],
+  showDrawerVariant: false,
+  selectedServingCategory: 0,
+  selectedServingItem: 0,
   filterServing: (value) => {
     if (value.length < 3) {
       set(() => ({ productListFiltered: [] }))
@@ -90,6 +93,16 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
 
     wrapper?.scrollTo({ left: offsetLeft - 32, behavior: 'smooth' })
   },
+  openDrawerVariant: (c, i) =>
+    set(({ productList }) => {
+      const isHaveCart = productList[c].servingItems[i].cartSummary.length > 0
+      return {
+        selectedServingCategory: c,
+        selectedServingItem: i,
+        showDrawerVariant: isHaveCart ? 'summary' : 'list',
+      }
+    }),
+  closeDrawerVariant: () => set(() => ({ showDrawerVariant: false })),
 }))
 
 export default useProductStore

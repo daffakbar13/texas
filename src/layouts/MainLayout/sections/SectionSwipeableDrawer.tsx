@@ -1,26 +1,20 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import { useMainStore } from '@texas/utils/stores'
 import Typography from '@mui/material/Typography'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import DinnerDiningRoundedIcon from '@mui/icons-material/DinnerDiningRounded'
+import { TexasSwipeableDrawer } from '@texas/components'
 
 export default function SwipeableTemporaryDrawer() {
-  const { isMainDrawerOpen, openMainDrawer, closeMainDrawer, sideOffset } = useMainStore()
+  const { isMainDrawerOpen, openMainDrawer, closeMainDrawer } = useMainStore()
 
   return (
-    <SwipeableDrawer
+    <TexasSwipeableDrawer
       anchor="right"
       open={isMainDrawerOpen}
       onClose={closeMainDrawer}
       onOpen={openMainDrawer}
-      PaperProps={{ sx: { right: sideOffset } }}
-      sx={{
-        left: sideOffset,
-        right: sideOffset,
-        '& .MuiModal-backdrop': { left: sideOffset, right: sideOffset },
-      }}
     >
       <Box
         sx={{ width: 220 }}
@@ -45,6 +39,6 @@ export default function SwipeableTemporaryDrawer() {
           </Box>
         </Box>
       </Box>
-    </SwipeableDrawer>
+    </TexasSwipeableDrawer>
   )
 }
