@@ -4,3 +4,4 @@ __generated__
 vendor
 commitlint.config.js
 next.config.js
+i18next.d.ts

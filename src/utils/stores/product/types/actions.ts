@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { SERVING_DUMMY, VARIANT_GROUP_DUMMY } from '@texas/views/product/constants'
 import { NextRouter } from 'next/router'
-
-type TogleEvent = React.KeyboardEvent | React.MouseEvent
 
 export type ProductActions = {
   changeSearchKeyword(value: string, router: NextRouter): void
@@ -18,4 +17,5 @@ export type ProductActions = {
   getProductTabScrollableWrapperDocument(): ReturnType<typeof document.getElementById>
   openDrawerVariant(categoryIndex: number, itemIndex: number): void
   closeDrawerVariant(): void
+  generateSelectionText(selected: (typeof VARIANT_GROUP_DUMMY)[0]): string
 }

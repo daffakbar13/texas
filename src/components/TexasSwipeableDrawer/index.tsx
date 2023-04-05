@@ -17,6 +17,7 @@ export default function TexasSwipeableDrawer(props: SwipeableDrawerProps) {
             left: sideOffset,
             right: sideOffset,
             borderRadius: '16px 16px 0 0',
+            maxHeight: '80vh',
           }),
           ...(isLeftOrRight && { [anchor]: sideOffset }),
         },
@@ -26,6 +27,8 @@ export default function TexasSwipeableDrawer(props: SwipeableDrawerProps) {
         right: sideOffset,
         '& .MuiModal-backdrop': { left: sideOffset, right: sideOffset },
       }}
+      disableSwipeToOpen
+      disableBackdropTransition
     />
   )
 }

@@ -3,8 +3,10 @@ import { OutlinedInput, InputAdornment, IconButton } from '@mui/material'
 import useProductStore from '@texas/utils/stores/product'
 import router from 'next/router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function SectionSearch() {
+  const { t } = useTranslation()
   const { searchKeyword, changeSearchKeyword } = useProductStore()
 
   return (
@@ -12,7 +14,7 @@ export default function SectionSearch() {
       id="outlined-adornment-password"
       size="small"
       fullWidth
-      placeholder="Search..."
+      placeholder={`${t('search')}...`}
       endAdornment={
         <InputAdornment position="end">
           <IconButton aria-label="toggle password visibility" edge="end">

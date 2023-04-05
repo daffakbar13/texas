@@ -17,7 +17,7 @@ const VARIANT_ITEMS_DUMMY = [
   { variantName: 'Sauce Tomato', price: 0 },
 ]
 
-const VARIANT_GROUP_DUMMY = [
+export const VARIANT_GROUP_DUMMY = [
   {
     variantGroupName: 'Sauce Variants',
     isHaveMinimumChoice: true,

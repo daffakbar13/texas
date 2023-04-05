@@ -103,6 +103,41 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
       }
     }),
   closeDrawerVariant: () => set(() => ({ showDrawerVariant: false })),
+  generateSelectionText: (s) => {
+    const {
+      isHaveMaximumChoice,
+      isHaveMinimumChoice,
+      maximumChoice,
+      minimumChoice,
+      // variantGroupName,
+      variantItems,
+    } = s
+
+    const variantLength = variantItems.length
+    const isHaveMinAndMax = isHaveMinimumChoice && isHaveMaximumChoice
+    const isEqMinMax = minimumChoice === maximumChoice
+    const isEqMinVarLength = minimumChoice === variantLength
+
+    const generateText = (...v: (string | number)[]) => ['Select', ...v].join(' ')
+
+    if (isHaveMinAndMax) {
+      if (isEqMinMax || isEqMinVarLength) {
+        return generateText(minimumChoice)
+      }
+      return generateText(minimumChoice, 'up to', maximumChoice)
+    }
+    if (isHaveMinimumChoice) {
+      if (isEqMinVarLength) {
+        return generateText(variantLength)
+      }
+      return generateText(minimumChoice, 'up to', variantLength)
+    }
+    if (isHaveMaximumChoice) {
+      return generateText('up to', maximumChoice)
+    }
+
+    return generateText('up to', variantLength)
+  },
 }))
 
 export default useProductStore

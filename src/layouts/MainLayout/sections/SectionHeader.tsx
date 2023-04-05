@@ -7,8 +7,10 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded'
 import { useRouter } from 'next/router'
 import useProductStore from '@texas/utils/stores/product'
+import { useMainStorage } from '@texas/utils/storages'
 
 export default function SectionHeader() {
+  const { language, setLanguage } = useMainStorage()
   const { openMainDrawer } = useMainStore()
   const { changeSearchKeyword } = useProductStore()
   const router = useRouter()
@@ -39,7 +41,12 @@ export default function SectionHeader() {
             onClick={() => router.push('/')}
           />
         </Box>
-        <IconButton onClick={openMainDrawer}>
+        <IconButton
+          onClick={(e) => {
+            openMainDrawer(e)
+            setLanguage(language === 'en' ? 'id' : 'en')
+          }}
+        >
           <MenuRoundedIcon sx={{ color: 'text.primary' }} />
         </IconButton>
       </Box>

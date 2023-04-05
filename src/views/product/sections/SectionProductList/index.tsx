@@ -1,10 +1,9 @@
-import { Box, Checkbox, Divider, Radio, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import ListRoundedIcon from '@mui/icons-material/ListRounded'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
-import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import Image from 'next/image'
-import { TexasButton, TexasSwipeableDrawer } from '@texas/components'
+import { TexasButton } from '@texas/components'
 import useProductStore from '@texas/utils/stores/product'
 import { useRouter } from 'next/router'
 import { ProductListContainer } from './ProductListContainer'
@@ -18,25 +17,21 @@ import { ProductDescriptionText } from './ProductDescriptionText'
 import { ProductPriceText } from './ProductPriceText'
 import { ProductNettText } from './ProductNettText'
 import { PromoLabel } from './PromoLabel'
+import CartDrawer from './CartDrawer'
 
 export default function SectionProductList() {
   const {
     activeTab,
     productList,
     productListFiltered,
-    showDrawerVariant,
-    selectedServingCategory,
-    selectedServingItem,
     onClickTabProductList,
     onScrollProductList,
     productScrollListener,
     openDrawerVariant,
-    closeDrawerVariant,
   } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
   const hideOnSearch = { ...(isOnSearch && { display: 'none' }) }
-  const selectedItem = productList[selectedServingCategory].servingItems[selectedServingItem]
 
   React.useEffect(() => {
     productScrollListener()
@@ -109,87 +104,7 @@ export default function SectionProductList() {
           </React.Fragment>
         ))}
       </ProductListWrapper>
-      <TexasSwipeableDrawer
-        anchor="bottom"
-        open={Boolean(showDrawerVariant)}
-        onClose={closeDrawerVariant}
-        onOpen={() => openDrawerVariant(selectedServingCategory, selectedServingItem)}
-      >
-        <Box display="flex" flexDirection="column" gap={2} padding={2}>
-          <Typography sx={{ fontWeight: 'bold' }}>Add New Item</Typography>
-          <Box>
-            <Divider />
-            <ProductWrapper>
-              <Image
-                src={selectedItem.servingImage}
-                alt="Product Image"
-                height={96}
-                width={96}
-                style={{ borderRadius: 8 }}
-              />
-              <Box display="flex" flexDirection="column" gap={1}>
-                <ProductNameText>{selectedItem.servingName}</ProductNameText>
-                <ProductDescriptionText>{selectedItem.servingDescription}</ProductDescriptionText>
-                <Box display="flex" alignItems="center" gap={0.5}>
-                  <ProductPriceText>{selectedItem.servingPrice.toLocaleString()}</ProductPriceText>
-                  <ProductNettText>{selectedItem.servingNett.toLocaleString()}</ProductNettText>
-                  <PromoLabel />
-                </Box>
-                <Box display="flex" justifyContent="end">
-                  <Box display="flex" alignItems="center" gap={1} color="primary.main">
-                    <RemoveCircleOutlineRoundedIcon />
-                    <Typography sx={{ fontSize: 14, fontWeight: 'bold', lineHeight: '16px' }}>
-                      1
-                    </Typography>
-                    <AddCircleOutlineRoundedIcon />
-                  </Box>
-                </Box>
-              </Box>
-            </ProductWrapper>
-          </Box>
-          <Box display="flex" flexDirection="column" gap={2} maxHeight={400} overflow="scroll">
-            {selectedItem.variantLists.map((e, i) => {
-              const isSameHave = e.isHaveMinimumChoice && e.isHaveMinimumChoice
-              const isSameChoice = e.minimumChoice === e.maximumChoice
-              const isSimilar = isSameHave && isSameChoice
-              const variantLength = e.variantItems.length
-              return (
-                <React.Fragment key={i}>
-                  <Box display="flex" gap={2}>
-                    <Typography sx={{ fontWeight: 'bold' }}>{e.variantGroupName}</Typography>
-                    <Typography component="li" sx={{ color: 'grey.400' }}>
-                      {'Select '}
-                      {e.isHaveMinimumChoice && `${e.minimumChoice} `}
-                      {!isSimilar && 'up to '}
-                      {!isSimilar && (e.isHaveMaximumChoice ? `${e.maximumChoice}` : variantLength)}
-                    </Typography>
-                  </Box>
-                  <Box display="flex" flexDirection="column">
-                    {e.variantItems.map((v, idx) => (
-                      <Box key={idx} display="flex">
-                        <Box
-                          flexGrow={1}
-                          display="flex"
-                          justifyContent="space-between"
-                          alignItems="center"
-                          width="100%"
-                        >
-                          <Typography>{v.variantName}</Typography>
-                          <Typography>
-                            {v.price === 0 ? 'Free' : v.price.toLocaleString()}
-                          </Typography>
-                        </Box>
-                        {isSameChoice && <Radio />}
-                        {!isSameChoice && <Checkbox />}
-                      </Box>
-                    ))}
-                  </Box>
-                </React.Fragment>
-              )
-            })}
-          </Box>
-        </Box>
-      </TexasSwipeableDrawer>
+      <CartDrawer/>
     </ProductListContainer>
   )
 }
