@@ -74,11 +74,11 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     const productListWrapper = getProductListWrapperDocument()
     productListWrapper?.scrollTo({ top, behavior: 'smooth' })
   },
-  productScrollListener: () => {
+  productScrollListener: (categories: any[]) => {
     const { getProductCategoryDocument, getProductListWrapperDocument } = get()
-    set(({ productList }) => {
+    set(() => {
       const productListWrapper = getProductListWrapperDocument()
-      const allProductOffsetTop = productList.map((_, i) => {
+      const allProductOffsetTop = categories.map((_, i) => {
         const productCategory = getProductCategoryDocument(i)
         return (productCategory?.offsetTop || 0) - (productListWrapper?.offsetTop || 0)
       })

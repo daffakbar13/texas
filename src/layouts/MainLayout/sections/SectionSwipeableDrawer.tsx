@@ -5,9 +5,22 @@ import Typography from '@mui/material/Typography'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import DinnerDiningRoundedIcon from '@mui/icons-material/DinnerDiningRounded'
 import { TexasSwipeableDrawer } from '@texas/components'
+import TranslateRoundedIcon from '@mui/icons-material/TranslateRounded'
 
 export default function SwipeableTemporaryDrawer() {
-  const { isMainDrawerOpen, openMainDrawer, closeMainDrawer } = useMainStore()
+  const { isMainDrawerOpen, openLanguageDrawer, openMainDrawer, closeMainDrawer } = useMainStore()
+
+  const mainDrawerMenu = [
+    { name: 'My Order', Icon: DinnerDiningRoundedIcon },
+    {
+      name: 'Change Language',
+      Icon: TranslateRoundedIcon,
+      onClick: (e: Parameters<React.MouseEventHandler<HTMLDivElement>>['0']) => {
+        closeMainDrawer(e)
+        openLanguageDrawer()
+      },
+    },
+  ]
 
   return (
     <TexasSwipeableDrawer
@@ -17,25 +30,38 @@ export default function SwipeableTemporaryDrawer() {
       onOpen={openMainDrawer}
     >
       <Box
-        sx={{ width: 220 }}
+        sx={{ width: 180 }}
         role="presentation"
-        onClick={closeMainDrawer}
-        onKeyDown={closeMainDrawer}
         display="flex"
         flexDirection="column"
         gap={3}
         height="100vh"
         padding={2}
       >
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>Hi, Daffa Akbar</Typography>
+        <Typography sx={{ fontSize: 16, fontWeight: 'bold' }}>Hi, Daffa Akbar</Typography>
         <Box display="flex" flexDirection="column" gap={2}>
-          <Box display="flex" alignItems="center" gap={1}>
-            <DinnerDiningRoundedIcon />
-            <Typography>My Order</Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap={1} color="error.main">
-            <LogoutRoundedIcon sx={{ color: 'error.main' }} />
-            <Typography>Sign Out</Typography>
+          {mainDrawerMenu.map((e, i) => (
+            <Box
+              key={i}
+              sx={{ cursor: 'pointer', ':hover': { color: 'primary.main' } }}
+              display="flex"
+              alignItems="center"
+              gap={1}
+              onClick={e.onClick}
+            >
+              <e.Icon sx={{ fontSize: 16 }} />
+              <Typography sx={{ fontSize: 14 }}>{e.name}</Typography>
+            </Box>
+          ))}
+          <Box
+            sx={{ cursor: 'pointer' }}
+            display="flex"
+            alignItems="center"
+            gap={1}
+            color="error.main"
+          >
+            <LogoutRoundedIcon sx={{ fontSize: 16, color: 'error.main' }} />
+            <Typography sx={{ fontSize: 14 }}>Sign Out</Typography>
           </Box>
         </Box>
       </Box>

@@ -6,6 +6,7 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
   contentWidth: 0,
   maxContentWidth: 480,
   isMainDrawerOpen: false,
+  isLanguageDrawerOpen: false,
   leftContent: 0,
   rightContent: 0,
   sideOffset: 0,
@@ -22,17 +23,19 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
 
       return { isMainDrawerOpen: open }
     }),
-  openMainDrawer: (event) =>
+  openMainDrawer(event) {
     set(({ togleMainDrawer }) => {
       togleMainDrawer(true)(event)
       return {}
-    }),
-  closeMainDrawer: (event) =>
+    })
+  },
+  closeMainDrawer(event) {
     set(({ togleMainDrawer }) => {
       togleMainDrawer(false)(event)
       return {}
-    }),
-  handleLeftRightContent: () => {
+    })
+  },
+  handleLeftRightContent() {
     const { contentWidth, maxContentWidth, sideOffset } = get()
     const { clientWidth } = document.body
 
@@ -58,6 +61,12 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
         set(() => ({ leftContent: 0, rightContent: 0, sideOffset: 0 }))
       }
     }
+  },
+  openLanguageDrawer() {
+    set(() => ({ isLanguageDrawerOpen: true }))
+  },
+  closeLanguageDrawer() {
+    set(() => ({ isLanguageDrawerOpen: false }))
   },
 }))
 

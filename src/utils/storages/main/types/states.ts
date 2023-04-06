@@ -1,3 +1,3 @@
 export type MainStates = {
-  language: 'en' | 'id'
+  language: 'en' | 'id' | string
 }

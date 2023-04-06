@@ -109,7 +109,9 @@ export default function CartDrawer() {
             )
           })}
         </Box>
-        <TexasButton onClick={closeDrawerVariant}>Add To Cart</TexasButton>
+        <TexasButton size="medium" onClick={closeDrawerVariant}>
+          Add To Cart
+        </TexasButton>
       </Box>
     </TexasSwipeableDrawer>
   )

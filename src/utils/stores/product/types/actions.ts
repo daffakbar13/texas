@@ -6,7 +6,7 @@ export type ProductActions = {
   changeSearchKeyword(value: string, router: NextRouter): void
   changeViewMode(viewMode: 'list' | 'search', router: NextRouter): void
   filterServing(value: string): void
-  productScrollListener(): void
+  productScrollListener(categories: any[]): void
   productScrollTo(value: number): void
   tabScrollTo(index: number): void
   onClickTabProductList(index: number): void

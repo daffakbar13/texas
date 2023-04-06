@@ -1,5 +1,10 @@
 import React from 'react'
-import { SectionHeader, SectionMain, SectionSwipeableDrawer } from './sections'
+import {
+  SectionHeader,
+  SectionLanguageDrawer,
+  SectionMain,
+  SectionSwipeableDrawer,
+} from './sections'
 
 export default function MainLayout(props: React.PropsWithChildren) {
   const { children } = props
@@ -8,6 +13,7 @@ export default function MainLayout(props: React.PropsWithChildren) {
       <SectionHeader />
       <SectionMain>{children}</SectionMain>
       <SectionSwipeableDrawer />
+      <SectionLanguageDrawer />
     </>
   )
 }

@@ -7,4 +7,6 @@ export type MainActions = {
   openMainDrawer(event: TogleEvent): void
   closeMainDrawer(event: TogleEvent): void
   handleLeftRightContent(): void
+  openLanguageDrawer(): void
+  closeLanguageDrawer(): void
 }
