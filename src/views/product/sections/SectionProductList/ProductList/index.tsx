@@ -27,7 +27,6 @@ export default function ProductList() {
   } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
-  const hideOnSearch = { ...(isOnSearch && { display: 'none' }) }
 
   React.useEffect(() => {
     if (productCategory?.data && productItems) {
@@ -45,9 +44,11 @@ export default function ProductList() {
 
             return (
               <React.Fragment key={i}>
-                <ProductCategoryWrapper id={`product-category-${i + 1}`} sx={hideOnSearch}>
-                  <ProductCategoryText>{e.categoryName}</ProductCategoryText>
-                </ProductCategoryWrapper>
+                {!isOnSearch && (
+                  <ProductCategoryWrapper id={`product-category-${i + 1}`}>
+                    <ProductCategoryText>{e.categoryName}</ProductCategoryText>
+                  </ProductCategoryWrapper>
+                )}
                 {items.map((s, idx) => (
                   <ProductWrapper key={idx}>
                     <Image

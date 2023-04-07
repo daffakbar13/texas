@@ -20,8 +20,6 @@ export default function Product() {
   const product = useQuery(['Product Item'], () => getProductItemList('123'))
   const cart = useQuery(['Cart'], () => getCart('guest', '123456789023'))
 
-  // const isOnSearch = router.query.view_mode === 'search'
-
   React.useEffect(() => {
     router.beforePopState(() => {
       changeSearchKeyword('', router)
@@ -50,17 +48,7 @@ export default function Product() {
   return (
     <>
       <SectionSearch />
-      <Box
-        display="flex"
-        flexDirection="column"
-        gap={2}
-        overflow="hidden"
-        sx={{
-          // height: isOnSearch ? 0 : '100%',
-          //  transitionDuration: '300ms'
-          height: '100%',
-        }}
-      >
+      <Box display="flex" flexDirection="column" gap={2} overflow="hidden" sx={{ height: '100%' }}>
         <SectionPromoBanner />
         <SectionProductList />
       </Box>
