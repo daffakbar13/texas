@@ -1,3 +1,9 @@
 {
-  "search": "Cari"
+  "search": "Cari makanan kesukaanmu",
+  "selectUpTo": "Pilih {min} sampai {max}",
+  "language": "Bahasa",
+  "changeLanguage": "Ganti Bahasa",
+  "myOrder": "Pesanan",
+  "signOut": "Keluar",
+  "close": "Tutup"
 }

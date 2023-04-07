@@ -6,14 +6,16 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import DinnerDiningRoundedIcon from '@mui/icons-material/DinnerDiningRounded'
 import { TexasSwipeableDrawer } from '@texas/components'
 import TranslateRoundedIcon from '@mui/icons-material/TranslateRounded'
+import { useTranslation } from 'react-i18next'
 
 export default function SwipeableTemporaryDrawer() {
   const { isMainDrawerOpen, openLanguageDrawer, openMainDrawer, closeMainDrawer } = useMainStore()
+  const { t } = useTranslation()
 
   const mainDrawerMenu = [
-    { name: 'My Order', Icon: DinnerDiningRoundedIcon },
+    { name: t('myOrder'), Icon: DinnerDiningRoundedIcon },
     {
-      name: 'Change Language',
+      name: t('language'),
       Icon: TranslateRoundedIcon,
       onClick: (e: Parameters<React.MouseEventHandler<HTMLDivElement>>['0']) => {
         closeMainDrawer(e)
@@ -61,7 +63,7 @@ export default function SwipeableTemporaryDrawer() {
             color="error.main"
           >
             <LogoutRoundedIcon sx={{ fontSize: 16, color: 'error.main' }} />
-            <Typography sx={{ fontSize: 14 }}>Sign Out</Typography>
+            <Typography sx={{ fontSize: 14 }}>{t('signOut')}</Typography>
           </Box>
         </Box>
       </Box>

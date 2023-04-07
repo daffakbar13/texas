@@ -1,7 +1,7 @@
-import axios from 'axios'
-import { camelizeKeys } from 'humps'
+import axios, { CreateAxiosDefaults } from 'axios'
+import { responseInterceptor, errorInterceptor, requestInterceptor } from './interceptors'
 
-const defaultConfig: Parameters<typeof axios.create>[0] = {
+export const defaultConfig: CreateAxiosDefaults = {
   headers: {
     msisdn: '628979618420',
     'originator-id': 'xyz',
@@ -10,19 +10,13 @@ const defaultConfig: Parameters<typeof axios.create>[0] = {
   },
 }
 
-export const texasFtRuby = axios.create({
-  ...defaultConfig,
-  baseURL: process.env.NEXT_PUBLIC_RUBY_URL,
-})
+export const createService = (baseURL?: string) => {
+  const newService = axios.create({
+    ...defaultConfig,
+    baseURL,
+  })
+  newService.interceptors.response.use(responseInterceptor, errorInterceptor)
+  newService.interceptors.request.use(requestInterceptor, errorInterceptor)
 
-texasFtRuby.interceptors.response.use(
-  (res) => {
-    res.data = camelizeKeys(res.data)
-
-    return res.data.data
-  },
-  (err) => {
-    throw err
-    // console.log(err.response.data.message)
-  },
-)
+  return newService
+}

@@ -14,15 +14,7 @@
     "import/no-unresolved": 0,
     "linebreak-style": 0,
     "implicit-arrow-linebreak": 0,
-    "object-curly-newline": [
-      "warn",
-      {
-        "ObjectExpression": {
-          "multiline": true,
-          "minProperties": 5
-        }
-      }
-    ],
+    "object-curly-newline": 0,
     "semi": "off",
     "indent": 1,
     "import/extensions": [

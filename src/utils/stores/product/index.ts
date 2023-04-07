@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { SERVING_DUMMY } from '@texas/views/product/constants'
 import { ProductStates } from './types/states'
 import { ProductActions } from './types/actions'
 
@@ -7,39 +6,20 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   activeTab: 1,
   allProductOffsetTop: [0],
   searchKeyword: '',
-  productList: SERVING_DUMMY,
-  productListFiltered: [],
   showDrawerVariant: false,
   selectedServingCategory: 0,
   selectedServingItem: 0,
-  filterServing: (value) => {
-    if (value.length < 3) {
-      set(() => ({ productListFiltered: [] }))
-    } else {
-      set(({ productList }) => {
-        const filtered: typeof SERVING_DUMMY = productList.map((e) => {
-          const filteredServingItems = e.servingItems.filter((s) => {
-            const valueLowerCase = value.toLowerCase()
-            return [
-              s.servingName.toLowerCase().includes(valueLowerCase),
-              s.servingDescription.toLowerCase().includes(valueLowerCase),
-              s.servingNett.toString().includes(valueLowerCase),
-            ].includes(true)
-          })
-
-          return { servingCategoryName: e.servingCategoryName, servingItems: filteredServingItems }
-        })
-
-        return { productListFiltered: filtered }
-      })
-    }
-  },
   changeSearchKeyword: (value, router) => {
-    const { changeViewMode, filterServing } = get()
+    const { productCategory, productItems, changeViewMode } = get()
     const isNullValue = value.length === 0
     set(() => ({ searchKeyword: value }))
-    filterServing(value)
     changeViewMode(isNullValue ? 'list' : 'search', router)
+    if (productCategory && productItems) {
+      if (value.length >= 3) {
+        productCategory.refetch()
+        productItems.refetch()
+      }
+    }
   },
   changeViewMode: (view_mode, router) => {
     if (router.query.view_mode !== view_mode) {
@@ -93,17 +73,9 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
 
     wrapper?.scrollTo({ left: offsetLeft - 32, behavior: 'smooth' })
   },
-  openDrawerVariant: (c, i) =>
-    set(({ productList }) => {
-      const isHaveCart = productList[c].servingItems[i].cartSummary.length > 0
-      return {
-        selectedServingCategory: c,
-        selectedServingItem: i,
-        showDrawerVariant: isHaveCart ? 'summary' : 'list',
-      }
-    }),
+  openDrawerVariant: () => {},
   closeDrawerVariant: () => set(() => ({ showDrawerVariant: false })),
-  generateSelectionText: (s) => {
+  generateSelectionText: (s, language) => {
     const {
       isHaveMaximumChoice,
       isHaveMinimumChoice,
@@ -117,26 +89,76 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     const isHaveMinAndMax = isHaveMinimumChoice && isHaveMaximumChoice
     const isEqMinMax = minimumChoice === maximumChoice
     const isEqMinVarLength = minimumChoice === variantLength
+    const isEN = language === 'en'
+    const upTo = isEN ? 'up to' : 'sampai'
 
-    const generateText = (...v: (string | number)[]) => ['Select', ...v].join(' ')
+    const generateText = (...v: (string | number)[]) => [isEN ? 'Select' : 'Pilih', ...v].join(' ')
 
     if (isHaveMinAndMax) {
       if (isEqMinMax || isEqMinVarLength) {
         return generateText(minimumChoice)
       }
-      return generateText(minimumChoice, 'up to', maximumChoice)
+      return generateText(minimumChoice, upTo, maximumChoice)
     }
     if (isHaveMinimumChoice) {
       if (isEqMinVarLength) {
         return generateText(variantLength)
       }
-      return generateText(minimumChoice, 'up to', variantLength)
+      return generateText(minimumChoice, upTo, variantLength)
     }
     if (isHaveMaximumChoice) {
-      return generateText('up to', maximumChoice)
+      return generateText(upTo, maximumChoice)
     }
 
-    return generateText('up to', variantLength)
+    return generateText(upTo, variantLength)
+  },
+  handleCategoryData(productCategory) {
+    set(() => ({ productCategory }))
+  },
+  handleProductData(productItems) {
+    set(() => ({ productItems }))
+  },
+  handleCartData(cart) {
+    set(() => ({ cart }))
+  },
+  getProductItemByCategory(categoryId) {
+    const { productItems, searchKeyword, getProductByCategoryAndSearch } = get()
+    const isOnSearch = searchKeyword.length > 0
+    const is3CharSearch = searchKeyword.length >= 3
+    if (productItems?.data) {
+      const { products } = productItems.data
+      const filterByCategory = products.filter((e) => e.productCategoryId === categoryId)
+      const filterWithSearch = getProductByCategoryAndSearch(filterByCategory)
+      if (isOnSearch) {
+        if (is3CharSearch) {
+          return filterWithSearch
+        }
+        return []
+      }
+      return filterByCategory
+    }
+    return []
+  },
+  getProductByCategoryAndSearch: (products) => {
+    const { searchKeyword } = get()
+    if (searchKeyword.length < 3) {
+      return []
+    }
+    const filteredServingItems = products.filter((s) => {
+      const valueLowerCase = searchKeyword.toLowerCase()
+      return [
+        s.productName.toLowerCase().includes(valueLowerCase),
+        s.productDescription.toLowerCase().includes(valueLowerCase),
+        s.productPriceNett.toString().includes(valueLowerCase),
+      ].includes(true)
+    })
+    return filteredServingItems
+  },
+  isTriggerLoading() {
+    const { productCategory, productItems } = get()
+    const isCategoryLoading = productCategory?.isLoading || productCategory?.isFetching
+    const isProductLoading = productItems?.isLoading || productItems?.isFetching
+    return Boolean(isCategoryLoading || isProductLoading)
   },
 }))
 

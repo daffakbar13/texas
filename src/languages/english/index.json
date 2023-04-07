@@ -1,3 +1,9 @@
 {
-  "search": "Search"
+  "search": "Search your favourite foods",
+  "selectUpTo": "Select {min} up to {max}",
+  "language": "Language",
+  "changeLanguage": "Change Language",
+  "myOrder": "My Order",
+  "signOut": "Sign Out",
+  "close": "Close"
 }

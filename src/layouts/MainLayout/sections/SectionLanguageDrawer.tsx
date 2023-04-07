@@ -5,10 +5,12 @@ import Typography from '@mui/material/Typography'
 import { TexasButton, TexasSwipeableDrawer } from '@texas/components'
 import { FormControl, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import { useMainStorage } from '@texas/utils/storages'
+import { useTranslation } from 'react-i18next'
 
 export default function SwipeableTemporaryDrawer() {
   const { language, setLanguage } = useMainStorage()
   const { isLanguageDrawerOpen, openLanguageDrawer, closeLanguageDrawer } = useMainStore()
+  const { t } = useTranslation()
 
   return (
     <TexasSwipeableDrawer
@@ -18,7 +20,7 @@ export default function SwipeableTemporaryDrawer() {
       onOpen={openLanguageDrawer}
     >
       <Box display="flex" flexDirection="column" gap={2} padding={2}>
-        <Typography sx={{ fontWeight: 'bold' }}>Change Language</Typography>
+        <Typography sx={{ fontWeight: 'bold' }}>{t('changeLanguage')}</Typography>
         <FormControl size="small">
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
@@ -43,7 +45,7 @@ export default function SwipeableTemporaryDrawer() {
           </RadioGroup>
         </FormControl>
         <TexasButton size="medium" onClick={closeLanguageDrawer}>
-          Close
+          {t('close')}
         </TexasButton>
       </Box>
     </TexasSwipeableDrawer>

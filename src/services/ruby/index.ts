@@ -1,16 +1,14 @@
-import { texasFtRuby } from '..'
-import { ProductCategoryList } from './types'
+import { ProductCategoryList, ProductItemList } from './types'
+import { createService } from '..'
 
-export const getProductCategoryList = (merchant_id: string): ProductCategoryList =>
-  texasFtRuby({
-    url: '/v1/pwa/product/category/list',
-    method: 'GET',
-    params: { merchant_id },
-  }) as unknown as ProductCategoryList
+const ruby = createService(process.env.NEXT_PUBLIC_RUBY_URL)
 
-export const getProductItemList = (merchant_id: string): any =>
-  texasFtRuby({
-    url: '/v1/pwa/product/item/list',
-    method: 'GET',
-    params: { merchant_id },
-  }) as unknown as any
+export const getProductCategoryList = (merchantId: string) =>
+  ruby.get<null, ProductCategoryList>('pwa/product/category/list', {
+    params: { merchantId },
+  })
+
+export const getProductItemList = (merchantId: string) =>
+  ruby.get<null, ProductItemList>('pwa/product/item/list', {
+    params: { merchantId },
+  })
