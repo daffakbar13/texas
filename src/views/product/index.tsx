@@ -9,8 +9,6 @@ import { SectionProductList, SectionPromoBanner, SectionSearch } from './section
 
 export default function Product() {
   const {
-    productCategory,
-    productItems,
     changeSearchKeyword,
     handleProductData,
     handleCategoryData,
@@ -32,10 +30,10 @@ export default function Product() {
   })
 
   React.useEffect(() => {
-    if (productCategory?.data && productItems?.data) {
-      productScrollListener(productCategory.data.categories)
+    if (category.data && product.data) {
+      productScrollListener(category.data.categories)
     }
-  }, [productCategory?.data, productItems?.data])
+  }, [router, category.data, product.data])
 
   React.useEffect(() => {
     handleCategoryData(category)
