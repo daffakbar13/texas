@@ -32,10 +32,10 @@ export default function Product() {
   })
 
   React.useEffect(() => {
-    if (productCategory?.data && productItems) {
+    if (productCategory?.data && productItems?.data) {
       productScrollListener(productCategory.data.categories)
     }
-  }, [productCategory, productItems])
+  }, [productCategory?.data, productItems?.data])
 
   React.useEffect(() => {
     handleCategoryData(category)
