@@ -6,6 +6,7 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import useProductStore from '@texas/utils/stores/product'
 import { useMainStorage } from '@texas/utils/storages'
+import { useTranslation } from 'react-i18next'
 import { ProductDescriptionText } from '../ProductList/ProductDescriptionText'
 import { ProductNameText } from '../ProductList/ProductNameText'
 import { ProductNettText } from '../ProductList/ProductNettText'
@@ -15,6 +16,7 @@ import { PromoLabel } from '../ProductList/PromoLabel'
 import VariantLoader from './VariantLoader'
 
 export default function VariantDrawer() {
+  const { t } = useTranslation()
   const { language } = useMainStorage()
   const {
     showDrawerVariant,
@@ -44,7 +46,7 @@ export default function VariantDrawer() {
       onOpen={() => openDrawerVariant(selectedProductId)}
     >
       <Box display="flex" flexDirection="column" overflow="hidden" gap={2} padding={2}>
-        <Typography sx={{ fontWeight: 'bold' }}>Add New Item</Typography>
+        <Typography sx={{ fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
         <VariantLoader />
         {selectedItem && !isTriggerLoading() && (
           <>
@@ -101,7 +103,7 @@ export default function VariantDrawer() {
                             fontWeight: 'bold',
                           }}
                         >
-                          {e.setVariantMin ? 'Required' : 'Optional'}
+                          {t(e.setVariantMin ? 'required' : 'optional')}
                         </Typography>
                         <Typography component="li" sx={{ fontSize: 13, color: 'grey.400' }}>
                           {selectText}
@@ -144,7 +146,7 @@ export default function VariantDrawer() {
               })}
             </Box>
             <TexasButton size="medium" onClick={closeDrawerVariant}>
-              Add To Cart - {getItemSubTotal().toLocaleString()}
+              {t('addToCart')} - {getItemSubTotal().toLocaleString()}
             </TexasButton>
           </>
         )}

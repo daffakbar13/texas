@@ -7,5 +7,9 @@
   "signOut": "Keluar",
   "close": "Tutup",
   "english": "Inggris",
-  "indonesian": "Indonesia"
+  "indonesian": "Indonesia",
+  "addNewItem": "Tambah Pesanan",
+  "addToCart": "Tambah Pesanan",
+  "required": "Harus Pilih",
+  "optional": "Opsional"
 }

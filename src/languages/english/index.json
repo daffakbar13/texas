@@ -7,5 +7,9 @@
   "signOut": "Sign Out",
   "close": "Close",
   "english": "English",
-  "indonesian": "Indonesian"
+  "indonesian": "Indonesian",
+  "addNewItem": "Add New Item",
+  "addToCart": "Add To Cart",
+  "required": "Required",
+  "optional": "Optional"
 }
