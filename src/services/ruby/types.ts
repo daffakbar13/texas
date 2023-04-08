@@ -16,7 +16,7 @@ interface Variant {
   readonly itemVariantPrice: number
 }
 
-interface VariantCategory {
+export interface VariantCategory {
   readonly variantCategoryId: string
   readonly variantCategoryName: string
   readonly variantCategoryMin: number
@@ -27,7 +27,7 @@ interface VariantCategory {
   readonly variants: Variant[]
 }
 
-interface Products {
+export interface Products {
   readonly productCategoryId: string
   readonly productCategoryName: string
   readonly productId: string
@@ -42,7 +42,7 @@ interface Products {
   readonly productOrder: number
   readonly isProductVariant: boolean
   readonly variantCategoryIds: string[]
-  readonly variantCategoryData: VariantCategory
+  readonly variantCategoryData: VariantCategory[]
 }
 
 export interface ProductItemList {

@@ -12,6 +12,17 @@ export default function SwipeableTemporaryDrawer() {
   const { isLanguageDrawerOpen, openLanguageDrawer, closeLanguageDrawer } = useMainStore()
   const { t } = useTranslation()
 
+  const languages = [
+    {
+      label: 'english',
+      value: 'en',
+    },
+    {
+      label: 'indonesian',
+      value: 'id',
+    },
+  ]
+
   return (
     <TexasSwipeableDrawer
       anchor="bottom"
@@ -28,20 +39,16 @@ export default function SwipeableTemporaryDrawer() {
             name="radio-buttons-group"
             onChange={(e) => setLanguage(e.target.value)}
           >
-            <FormControlLabel
-              sx={{ '& span': { fontSize: 14 } }}
-              value="en"
-              checked={language === 'en'}
-              control={<Radio size="small" />}
-              label="English"
-            />
-            <FormControlLabel
-              sx={{ '& span': { fontSize: 14 } }}
-              value="id"
-              checked={language === 'id'}
-              control={<Radio size="small" />}
-              label="Indonesian"
-            />
+            {languages.map((e, i) => (
+              <FormControlLabel
+                key={i}
+                sx={{ '& span': { fontSize: 14 } }}
+                value={e.value}
+                checked={language === e.value}
+                control={<Radio size="small" />}
+                label={t(e.label)}
+              />
+            ))}
           </RadioGroup>
         </FormControl>
         <TexasButton size="medium" onClick={closeLanguageDrawer}>

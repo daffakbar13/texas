@@ -7,17 +7,17 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   allProductOffsetTop: [0],
   searchKeyword: '',
   showDrawerVariant: false,
-  selectedServingCategory: 0,
-  selectedServingItem: 0,
+  selectedProductId: '',
+  temporarySelectedVariantItems: [],
+  temporarySelectedQty: 1,
   changeSearchKeyword: (value, router) => {
-    const { productCategory, productItems, changeViewMode } = get()
+    const { productCategory, productItems, changeViewMode, refetchAllProductData } = get()
     const isNullValue = value.length === 0
     set(() => ({ searchKeyword: value }))
     changeViewMode(isNullValue ? 'list' : 'search', router)
     if (productCategory && productItems) {
       if (value.length >= 3) {
-        productCategory.refetch()
-        productItems.refetch()
+        refetchAllProductData()
       }
     }
   },
@@ -73,22 +73,24 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
 
     wrapper?.scrollTo({ left: offsetLeft - 32, behavior: 'smooth' })
   },
-  openDrawerVariant: () => {},
-  closeDrawerVariant: () => set(() => ({ showDrawerVariant: false })),
+  openDrawerVariant: (selectedProductId) => {
+    const { refetchAllProductData } = get()
+    refetchAllProductData()
+    set({ selectedProductId, showDrawerVariant: 'list' })
+  },
+  closeDrawerVariant: () => {
+    set({ showDrawerVariant: false, temporarySelectedVariantItems: [], temporarySelectedQty: 1 })
+    setTimeout(() => {
+      set(() => ({ selectedProductId: '' }))
+    }, 300)
+  },
   generateSelectionText: (s, language) => {
-    const {
-      isHaveMaximumChoice,
-      isHaveMinimumChoice,
-      maximumChoice,
-      minimumChoice,
-      // variantGroupName,
-      variantItems,
-    } = s
+    const { setVariantMin, setVariantMax, variantCategoryMin, variantCategoryMax, variants } = s
 
-    const variantLength = variantItems.length
-    const isHaveMinAndMax = isHaveMinimumChoice && isHaveMaximumChoice
-    const isEqMinMax = minimumChoice === maximumChoice
-    const isEqMinVarLength = minimumChoice === variantLength
+    const variantLength = variants.length
+    const isHaveMinAndMax = setVariantMin && setVariantMax
+    const isEqMinMax = variantCategoryMin === variantCategoryMax
+    const isEqMinVarLength = variantCategoryMin === variantLength
     const isEN = language === 'en'
     const upTo = isEN ? 'up to' : 'sampai'
 
@@ -96,18 +98,18 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
 
     if (isHaveMinAndMax) {
       if (isEqMinMax || isEqMinVarLength) {
-        return generateText(minimumChoice)
+        return generateText(variantCategoryMin)
       }
-      return generateText(minimumChoice, upTo, maximumChoice)
+      return generateText(variantCategoryMin, upTo, variantCategoryMax)
     }
-    if (isHaveMinimumChoice) {
+    if (setVariantMin) {
       if (isEqMinVarLength) {
         return generateText(variantLength)
       }
-      return generateText(minimumChoice, upTo, variantLength)
+      return generateText(variantCategoryMin, upTo, variantLength)
     }
-    if (isHaveMaximumChoice) {
-      return generateText(upTo, maximumChoice)
+    if (setVariantMax) {
+      return generateText(upTo, variantCategoryMax)
     }
 
     return generateText(upTo, variantLength)
@@ -159,6 +161,84 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     const isCategoryLoading = productCategory?.isLoading || productCategory?.isFetching
     const isProductLoading = productItems?.isLoading || productItems?.isFetching
     return Boolean(isCategoryLoading || isProductLoading)
+  },
+  getVariantByProductId() {
+    const { productItems, getProductById } = get()
+    const selectedProduct = getProductById()
+
+    if (productItems?.data && selectedProduct) {
+      return selectedProduct.variantCategoryData
+    }
+    return []
+  },
+  getProductById() {
+    const { productItems, selectedProductId } = get()
+    return productItems?.data?.products.find((e) => e.productId === selectedProductId)
+  },
+  refetchAllProductData() {
+    const { productItems, productCategory, cart } = get()
+    productItems?.refetch()
+    productCategory?.refetch()
+    cart?.refetch()
+  },
+  handleAddVariantItem(variantCategoryId, variantItemId) {
+    const { temporarySelectedVariantItems, getVariantByProductId } = get()
+    const isChecked = temporarySelectedVariantItems.includes(variantItemId)
+    const selectedIndex = temporarySelectedVariantItems.findIndex((e) => e === variantItemId)
+    const newSelected = [...temporarySelectedVariantItems]
+    if (isChecked) {
+      newSelected.splice(selectedIndex, 1)
+    } else {
+      const variantList = getVariantByProductId()
+      const variantCategory = variantList.find((e) => e.variantCategoryId === variantCategoryId)
+      if (variantCategory) {
+        const { setVariantMax, variantCategoryMax, variants } = variantCategory
+        // const minChoice = setVariantMin ? variantCategoryMin : 0
+        const maxChoice = setVariantMax ? variantCategoryMax : variants.length
+        const variantIds = variants.map((e) => e.itemVariantId)
+        const selectedVariant = temporarySelectedVariantItems.filter((e) => variantIds.includes(e))
+        const selectedLength = selectedVariant.length
+        if (selectedLength <= maxChoice) {
+          newSelected.push(variantItemId)
+        }
+      }
+    }
+
+    set({ temporarySelectedVariantItems: newSelected })
+  },
+  isCheckedVariant(variantItemId) {
+    const { temporarySelectedVariantItems } = get()
+    return temporarySelectedVariantItems.includes(variantItemId)
+  },
+  getItemSubTotal() {
+    const {
+      temporarySelectedVariantItems,
+      getProductById,
+      getVariantByProductId,
+      temporarySelectedQty,
+    } = get()
+    const product = getProductById()
+    const priceList = [0]
+    if (product) {
+      priceList.push(product.productPriceNett * temporarySelectedQty)
+      getVariantByProductId().forEach((e) => {
+        e.variants.forEach((v) => {
+          if (temporarySelectedVariantItems.includes(v.itemVariantId)) {
+            priceList.push(v.itemVariantPrice)
+          }
+        })
+      })
+    }
+    return priceList.reduce((a, b) => a + b)
+  },
+  handleAddItemQty() {
+    set(({ temporarySelectedQty }) => ({ temporarySelectedQty: temporarySelectedQty + 1 }))
+  },
+  handleReduceItemQty() {
+    const { temporarySelectedQty } = get()
+    if (temporarySelectedQty > 1) {
+      set({ temporarySelectedQty: temporarySelectedQty - 1 })
+    }
   },
 }))
 

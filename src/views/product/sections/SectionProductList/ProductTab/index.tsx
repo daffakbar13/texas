@@ -8,7 +8,7 @@ import { ProductTabWrapper } from './ProductTabWrapper'
 import ProductTabLoader from './ProductTabLoader'
 
 export default function ProductTab() {
-  const { activeTab, productCategory, onClickTabProductList } = useProductStore()
+  const { activeTab, productCategory, onClickTabProductList, isTriggerLoading } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
 
@@ -23,9 +23,9 @@ export default function ProductTab() {
           </Box>
           <Box display="flex" id="product-tab-scrollable-wrapper" overflow="scroll" gap={1}>
             <ProductTabLoader />
-            {productCategory?.isSuccess && (
+            {!isTriggerLoading() && (
               <>
-                {productCategory.data.categories.map((e, i) => (
+                {productCategory?.data?.categories.map((e, i) => (
                   <Box key={i} display="flex" alignItems="center">
                     <TexasButton
                       key={i}

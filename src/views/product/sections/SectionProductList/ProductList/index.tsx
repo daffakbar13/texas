@@ -35,7 +35,10 @@ export default function ProductList() {
   }, [productCategory, productItems])
 
   return (
-    <ProductListWrapper id="product-list-wrapper" onScroll={onScrollProductList}>
+    <ProductListWrapper
+      id="product-list-wrapper"
+      {...(!isTriggerLoading() && { onScroll: onScrollProductList })}
+    >
       <ProductLoader />
       {!isTriggerLoading() && (
         <>
@@ -73,7 +76,7 @@ export default function ProductList() {
                           <AddCircleOutlineRoundedIcon
                             sx={{ cursor: 'pointer' }}
                             {...(s.isProductVariant && {
-                              onClick: () => openDrawerVariant(i, idx),
+                              onClick: () => openDrawerVariant(s.productId),
                             })}
                           />
                         </Box>

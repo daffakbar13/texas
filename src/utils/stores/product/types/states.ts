@@ -9,9 +9,10 @@ export type ProductStates = {
   activeTab: number
   allProductOffsetTop: number[]
   showDrawerVariant: SwiperVariantType
-  selectedServingCategory: number
-  selectedServingItem: number
+  selectedProductId: string
   productCategory?: UseQueryResult<ProductCategoryList>
   productItems?: UseQueryResult<ProductItemList>
   cart?: UseQueryResult<Cart>
+  temporarySelectedVariantItems: string[]
+  temporarySelectedQty: number
 }

@@ -40,7 +40,7 @@ export default function SwipeableTemporaryDrawer() {
         height="100vh"
         padding={2}
       >
-        <Typography sx={{ fontSize: 16, fontWeight: 'bold' }}>Hi, Daffa Akbar</Typography>
+        <Typography sx={{ fontSize: 22, fontWeight: 'bold' }}>Hi, Daffa Akbar</Typography>
         <Box display="flex" flexDirection="column" gap={2}>
           {mainDrawerMenu.map((e, i) => (
             <Box
@@ -51,8 +51,8 @@ export default function SwipeableTemporaryDrawer() {
               gap={1}
               onClick={e.onClick}
             >
-              <e.Icon sx={{ fontSize: 16 }} />
-              <Typography sx={{ fontSize: 14 }}>{e.name}</Typography>
+              <e.Icon sx={{ fontSize: 20 }} />
+              <Typography>{e.name}</Typography>
             </Box>
           ))}
           <Box
@@ -62,8 +62,8 @@ export default function SwipeableTemporaryDrawer() {
             gap={1}
             color="error.main"
           >
-            <LogoutRoundedIcon sx={{ fontSize: 16, color: 'error.main' }} />
-            <Typography sx={{ fontSize: 14 }}>{t('signOut')}</Typography>
+            <LogoutRoundedIcon sx={{ fontSize: 20, color: 'error.main' }} />
+            <Typography>{t('signOut')}</Typography>
           </Box>
         </Box>
       </Box>
