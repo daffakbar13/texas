@@ -9,4 +9,5 @@ export type MainActions = {
   handleLeftRightContent(): void
   openLanguageDrawer(): void
   closeLanguageDrawer(): void
+  getCarouselHeight(): number
 }

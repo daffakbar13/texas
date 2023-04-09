@@ -47,7 +47,7 @@ export default function ProductList() {
                 </>
               )}
               {getProductItemByCategory(c.categoryId).map((p, idx) => (
-                <>
+                <React.Fragment key={p.productId}>
                   <ProductWrapper key={idx}>
                     <ProductImage src={p.productImage} />
                     <ProductContent>
@@ -70,7 +70,7 @@ export default function ProductList() {
                     </ProductContent>
                   </ProductWrapper>
                   <Divider />
-                </>
+                </React.Fragment>
               ))}
             </React.Fragment>
           ))}

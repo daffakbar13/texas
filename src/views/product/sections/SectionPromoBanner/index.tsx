@@ -14,11 +14,9 @@ import { Carousel } from 'react-responsive-carousel'
 import { useMainStore } from '@texas/utils/stores'
 
 export default function SectionPromoBanner() {
-  const { contentWidth } = useMainStore()
+  const { getCarouselHeight } = useMainStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
-  const carouselWidth = contentWidth - 32
-  const carouselHeight = carouselWidth / 2.76
 
   return (
     <>
@@ -31,13 +29,14 @@ export default function SectionPromoBanner() {
             ILDummyPromoBanner4.src,
             ILDummyPromoBanner5.src,
           ].map((e, i) => (
-            <Box key={i} width="100%" height={carouselHeight} position="relative">
+            <Box key={i} width="100%" height={getCarouselHeight()} position="relative">
               <Image
                 src={e}
                 alt="Promo Banner"
                 fill
-                objectFit="cover"
-                style={{ borderRadius: 8 }}
+                sizes="100%"
+                priority={i === 0}
+                style={{ objectFit: 'cover', borderRadius: 8 }}
               />
             </Box>
           ))}

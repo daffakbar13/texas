@@ -113,10 +113,9 @@ export default function VariantDrawer() {
                     </VariantCategoryWrapper>
                     <Box display="flex" flexDirection="column">
                       {e.variants.map((v, idx, arr) => (
-                        <>
+                        <React.Fragment key={v.itemVariantId}>
                           <Divider />
                           <VariantItemWrapper
-                            key={idx}
                             onClick={() =>
                               handleAddVariantItem(v.itemVariantCategoryId, v.itemVariantId)
                             }
@@ -136,7 +135,7 @@ export default function VariantDrawer() {
                             />
                           </VariantItemWrapper>
                           {idx === arr.length - 1 && <Divider />}
-                        </>
+                        </React.Fragment>
                       ))}
                     </Box>
                   </React.Fragment>

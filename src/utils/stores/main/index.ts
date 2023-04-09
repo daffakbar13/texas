@@ -68,6 +68,14 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
   closeLanguageDrawer() {
     set(() => ({ isLanguageDrawerOpen: false }))
   },
+  getCarouselHeight() {
+    const { contentWidth } = get()
+    const isNullContentWidth = contentWidth === 0
+    const carouselWidth = isNullContentWidth ? 400 : contentWidth - 32
+    const carouselHeight = carouselWidth / 2.76
+
+    return carouselHeight
+  },
 }))
 
 export default useMainStore
