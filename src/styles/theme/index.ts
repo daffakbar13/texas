@@ -1,6 +1,6 @@
 import { CSSObject } from '@emotion/react'
 import { createTheme } from '@mui/material'
-import { grey, indigo, red } from '@mui/material/colors'
+import { grey, red } from '@mui/material/colors'
 import { globalStyles } from '../globalStyles'
 
 export const theme = createTheme({
@@ -20,13 +20,10 @@ export const theme = createTheme({
         disableElevation: true,
       },
     },
-    MuiListItem: {
+    MuiDivider: {
       styleOverrides: {
         root: {
-          '&.Mui-selected': {
-            color: indigo[900],
-            backgroundColor: 'white',
-          },
+          borderColor: grey[100],
         },
       },
     },
