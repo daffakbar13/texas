@@ -1,7 +1,6 @@
-import { Box } from '@mui/material'
+import { Divider } from '@mui/material'
 import React from 'react'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
-import Image from 'next/image'
 import useProductStore from '@texas/utils/stores/product'
 import { useRouter } from 'next/router'
 import { ProductListWrapper } from './ProductListWrapper'
@@ -14,79 +13,67 @@ import { ProductPriceText } from './ProductPriceText'
 import { ProductNettText } from './ProductNettText'
 import { PromoLabel } from './PromoLabel'
 import ProductLoader from './ProductLoader'
+import ProductImage from './ProductImage'
+import { ProductContent } from './ProductContent'
+import { ProductInfo } from './ProductInfo'
+import { ProductCounter } from './ProductCounter'
 
 export default function ProductList() {
   const {
     productCategory,
-    productItems,
+    showDrawerVariant,
     onScrollProductList,
-    productScrollListener,
     openDrawerVariant,
     getProductItemByCategory,
     isTriggerLoading,
   } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
-
-  React.useEffect(() => {
-    if (productCategory?.data && productItems) {
-      productScrollListener(productCategory.data.categories)
-    }
-  }, [productCategory, productItems])
+  const isDrawerVariantOpen = Boolean(showDrawerVariant)
 
   return (
-    <ProductListWrapper
-      id="product-list-wrapper"
-      {...(!isTriggerLoading() && { onScroll: onScrollProductList })}
-    >
-      <ProductLoader />
-      {!isTriggerLoading() && (
+    <ProductListWrapper {...(!isTriggerLoading() && { onScroll: onScrollProductList })}>
+      {isTriggerLoading() && !isDrawerVariantOpen && <ProductLoader />}
+      {(!isTriggerLoading() || isDrawerVariantOpen) && (
         <>
-          {productCategory?.data?.categories.map((e, i) => {
-            const items = getProductItemByCategory(e.categoryId)
-
-            return (
-              <React.Fragment key={i}>
-                {!isOnSearch && (
+          {productCategory?.data?.categories.map((c, i) => (
+            <React.Fragment key={i}>
+              {!isOnSearch && (
+                <>
                   <ProductCategoryWrapper id={`product-category-${i + 1}`}>
-                    <ProductCategoryText>{e.categoryName}</ProductCategoryText>
+                    <ProductCategoryText>{c.categoryName}</ProductCategoryText>
                   </ProductCategoryWrapper>
-                )}
-                {items.map((s, idx) => (
+                  <Divider />
+                </>
+              )}
+              {getProductItemByCategory(c.categoryId).map((p, idx) => (
+                <>
                   <ProductWrapper key={idx}>
-                    <Image
-                      src={s.productImage}
-                      alt="Product Image"
-                      height={96}
-                      width={96}
-                      style={{ borderRadius: 8 }}
-                    />
-                    <Box display="flex" flexDirection="column" gap={1} flexGrow={1}>
-                      <ProductNameText>{s.productName}</ProductNameText>
-                      <ProductDescriptionText>{s.productDescription}</ProductDescriptionText>
-                      <Box display="flex" alignItems="center" gap={0.5}>
-                        {s.isProductPriceDiscount && (
-                          <ProductPriceText>{s.productPrice.toLocaleString()}</ProductPriceText>
+                    <ProductImage src={p.productImage} />
+                    <ProductContent>
+                      <ProductNameText>{p.productName}</ProductNameText>
+                      <ProductDescriptionText>{p.productDescription}</ProductDescriptionText>
+                      <ProductInfo>
+                        {p.isProductPriceDiscount && (
+                          <ProductPriceText>{p.productPrice.toLocaleString()}</ProductPriceText>
                         )}
-                        <ProductNettText>{s.productPriceNett.toLocaleString()}</ProductNettText>
+                        <ProductNettText>{p.productPriceNett.toLocaleString()}</ProductNettText>
                         <PromoLabel />
-                      </Box>
-                      <Box display="flex" justifyContent="end">
-                        <Box display="flex" alignItems="center" gap={1} color="primary.main">
-                          <AddCircleOutlineRoundedIcon
-                            sx={{ cursor: 'pointer' }}
-                            {...(s.isProductVariant && {
-                              onClick: () => openDrawerVariant(s.productId),
-                            })}
-                          />
-                        </Box>
-                      </Box>
-                    </Box>
+                      </ProductInfo>
+                      <ProductCounter>
+                        <AddCircleOutlineRoundedIcon
+                          {...(p.isProductVariant && {
+                            onClick: () => openDrawerVariant(p.productId),
+                          })}
+                        />
+                      </ProductCounter>
+                    </ProductContent>
                   </ProductWrapper>
-                ))}
-              </React.Fragment>
-            )
-          })}
+                  <Divider />
+                </>
+              ))}
+            </React.Fragment>
+          ))}
         </>
       )}
     </ProductListWrapper>

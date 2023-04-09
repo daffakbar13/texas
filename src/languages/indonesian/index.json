@@ -11,5 +11,6 @@
   "addNewItem": "Tambah Pesanan",
   "addToCart": "Tambah Pesanan",
   "required": "Harus Pilih",
-  "optional": "Opsional"
+  "optional": "Opsional",
+  "free": "Gratis"
 }

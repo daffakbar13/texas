@@ -39,4 +39,5 @@ export type ProductActions = {
   getItemSubTotal(): number
   handleAddItemQty(): void
   handleReduceItemQty(): void
+  isActiveTab(index: number): boolean
 }

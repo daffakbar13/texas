@@ -1,7 +1,6 @@
 import { Box, Typography, Divider, Radio, Checkbox } from '@mui/material'
 import { TexasButton, TexasSwipeableDrawer } from '@texas/components'
-import * as React from 'react'
-import Image from 'next/image'
+import React from 'react'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import useProductStore from '@texas/utils/stores/product'
@@ -14,6 +13,17 @@ import { ProductPriceText } from '../ProductList/ProductPriceText'
 import { ProductWrapper } from '../ProductList/ProductWrapper'
 import { PromoLabel } from '../ProductList/PromoLabel'
 import VariantLoader from './VariantLoader'
+import ProductImage from '../ProductList/ProductImage'
+import { ProductContent } from '../ProductList/ProductContent'
+import { ProductInfo } from '../ProductList/ProductInfo'
+import { ProductCounter } from '../ProductList/ProductCounter'
+import { VariantDrawerWrapper } from './VariantDrawerWrapper'
+import { VariantListWrapper } from './VariantListWrapper'
+import { VariantCategoryWrapper } from './VariantCategoryWrapper'
+import { VariantCategoryText } from './VariantCategoryText'
+import { VariantCategoryInfoWrapper } from './VariantCategoryInfoWrapper'
+import { VariantItemWrapper } from './VariantItemWrapper'
+import { VariantNamePriceWrapper } from './VariantNamePriceWrapper'
 
 export default function VariantDrawer() {
   const { t } = useTranslation()
@@ -45,7 +55,7 @@ export default function VariantDrawer() {
       onClose={closeDrawerVariant}
       onOpen={() => openDrawerVariant(selectedProductId)}
     >
-      <Box display="flex" flexDirection="column" overflow="hidden" gap={2} padding={2}>
+      <VariantDrawerWrapper>
         <Typography sx={{ fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
         <VariantLoader />
         {selectedItem && !isTriggerLoading() && (
@@ -53,104 +63,92 @@ export default function VariantDrawer() {
             <Box>
               <Divider />
               <ProductWrapper>
-                <Image
-                  src={selectedItem.productImage}
-                  alt="Product Image"
-                  height={96}
-                  width={96}
-                  style={{ borderRadius: 8 }}
-                />
-                <Box display="flex" flexDirection="column" gap={1}>
+                <ProductImage src={selectedItem.productImage} />
+                <ProductContent>
                   <ProductNameText>{selectedItem.productName}</ProductNameText>
                   <ProductDescriptionText>{selectedItem.productDescription}</ProductDescriptionText>
-                  <Box display="flex" alignItems="center" gap={0.5}>
-                    <ProductPriceText>
-                      {selectedItem.productPrice.toLocaleString()}
-                    </ProductPriceText>
+                  <ProductInfo>
+                    {selectedItem.isProductPriceDiscount && (
+                      <ProductPriceText>
+                        {selectedItem.productPrice.toLocaleString()}
+                      </ProductPriceText>
+                    )}
                     <ProductNettText>
                       {selectedItem.productPriceNett.toLocaleString()}
                     </ProductNettText>
                     <PromoLabel />
-                  </Box>
-                  <Box display="flex" justifyContent="end">
-                    <Box display="flex" alignItems="center" gap={1} color="primary.main">
-                      <RemoveCircleOutlineRoundedIcon
-                        onClick={handleReduceItemQty}
-                        sx={{ ...(temporarySelectedQty === 1 && { color: 'grey.600' }) }}
-                      />
-                      <Typography sx={{ fontSize: 14, fontWeight: 'bold', lineHeight: '16px' }}>
-                        {temporarySelectedQty}
-                      </Typography>
-                      <AddCircleOutlineRoundedIcon onClick={handleAddItemQty} />
-                    </Box>
-                  </Box>
-                </Box>
+                  </ProductInfo>
+                  <ProductCounter>
+                    <RemoveCircleOutlineRoundedIcon
+                      onClick={handleReduceItemQty}
+                      sx={{ ...(temporarySelectedQty === 1 && { color: 'grey.600' }) }}
+                    />
+                    <Typography>{temporarySelectedQty}</Typography>
+                    <AddCircleOutlineRoundedIcon onClick={handleAddItemQty} />
+                  </ProductCounter>
+                </ProductContent>
               </ProductWrapper>
+              <Divider />
             </Box>
-            <Box display="flex" flexDirection="column" gap={2} maxHeight="100%" overflow="scroll">
+            <VariantListWrapper>
               {variantList.map((e, i) => {
                 const selectText = generateSelectionText(e, language)
                 const isRadio = selectText === 'Select 1' || selectText === 'Pilih 1'
+                const CheckboxOrRadio = isRadio ? Radio : Checkbox
                 return (
                   <React.Fragment key={i}>
-                    <Box display="flex" flexDirection="column">
-                      <Typography sx={{ fontWeight: 'bold' }}>{e.variantCategoryName}</Typography>
-                      <Box display="flex" gap={2}>
+                    <VariantCategoryWrapper>
+                      <VariantCategoryText>{e.variantCategoryName}</VariantCategoryText>
+                      <VariantCategoryInfoWrapper>
                         <Typography
                           sx={{
-                            fontSize: 13,
-                            color: e.setVariantMin ? 'primary.main' : 'grey.400',
+                            ...(e.setVariantMin && { color: 'primary.main' }),
                             fontWeight: 'bold',
                           }}
                         >
                           {t(e.setVariantMin ? 'required' : 'optional')}
                         </Typography>
-                        <Typography component="li" sx={{ fontSize: 13, color: 'grey.400' }}>
-                          {selectText}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box display="flex" flexDirection="column" gap={1}>
-                      {e.variants.map((v, idx) => (
-                        <Box key={idx} display="flex" gap={1}>
-                          <Box
-                            flexGrow={1}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            width="100%"
+                        <Typography component="li">{selectText}</Typography>
+                      </VariantCategoryInfoWrapper>
+                    </VariantCategoryWrapper>
+                    <Box display="flex" flexDirection="column">
+                      {e.variants.map((v, idx, arr) => (
+                        <>
+                          <Divider />
+                          <VariantItemWrapper
+                            key={idx}
+                            onClick={() =>
+                              handleAddVariantItem(v.itemVariantCategoryId, v.itemVariantId)
+                            }
                           >
-                            <Typography sx={{ fontSize: 14 }}>{v.itemVariantName}</Typography>
-                            <Typography sx={{ fontSize: 14 }}>
-                              {v.itemVariantPrice === 0
-                                ? 'Free'
-                                : v.itemVariantPrice.toLocaleString()}
-                            </Typography>
-                          </Box>
-                          {isRadio && <Radio checked={false} size="small" sx={{ padding: 0 }} />}
-                          {!isRadio && (
-                            <Checkbox
+                            <VariantNamePriceWrapper>
+                              <Typography>{v.itemVariantName}</Typography>
+                              <Typography>
+                                {v.itemVariantPrice === 0
+                                  ? t('free')
+                                  : `+${v.itemVariantPrice.toLocaleString()}`}
+                              </Typography>
+                            </VariantNamePriceWrapper>
+                            <CheckboxOrRadio
+                              checked={isCheckedVariant(v.itemVariantId)}
                               size="small"
                               sx={{ padding: 0 }}
-                              checked={isCheckedVariant(v.itemVariantId)}
-                              onClick={() =>
-                                handleAddVariantItem(v.itemVariantCategoryId, v.itemVariantId)
-                              }
                             />
-                          )}
-                        </Box>
+                          </VariantItemWrapper>
+                          {idx === arr.length - 1 && <Divider />}
+                        </>
                       ))}
                     </Box>
                   </React.Fragment>
                 )
               })}
-            </Box>
+            </VariantListWrapper>
             <TexasButton size="medium" onClick={closeDrawerVariant}>
               {t('addToCart')} - {getItemSubTotal().toLocaleString()}
             </TexasButton>
           </>
         )}
-      </Box>
+      </VariantDrawerWrapper>
     </TexasSwipeableDrawer>
   )
 }

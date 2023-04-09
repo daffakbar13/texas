@@ -8,9 +8,16 @@ import { ProductTabWrapper } from './ProductTabWrapper'
 import ProductTabLoader from './ProductTabLoader'
 
 export default function ProductTab() {
-  const { activeTab, productCategory, onClickTabProductList, isTriggerLoading } = useProductStore()
+  const {
+    productCategory,
+    showDrawerVariant,
+    isActiveTab,
+    onClickTabProductList,
+    isTriggerLoading,
+  } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
+  const isDrawerVariantOpen = Boolean(showDrawerVariant)
 
   return (
     <>
@@ -22,15 +29,15 @@ export default function ProductTab() {
             </TexasButton>
           </Box>
           <Box display="flex" id="product-tab-scrollable-wrapper" overflow="scroll" gap={1}>
-            <ProductTabLoader />
-            {!isTriggerLoading() && (
+            {isTriggerLoading() && !isDrawerVariantOpen && <ProductTabLoader />}
+            {(!isTriggerLoading() || isDrawerVariantOpen) && (
               <>
                 {productCategory?.data?.categories.map((e, i) => (
                   <Box key={i} display="flex" alignItems="center">
                     <TexasButton
                       key={i}
                       id={`product-tab-${i + 1}`}
-                      variant={activeTab === i + 1 ? 'contained' : 'outlined'}
+                      variant={isActiveTab(i) ? 'contained' : 'outlined'}
                       onClick={() => onClickTabProductList(i)}
                       sx={{ transitionDuration: '300ms', width: 'max-content' }}
                     >

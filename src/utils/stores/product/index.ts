@@ -220,7 +220,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     const product = getProductById()
     const priceList = [0]
     if (product) {
-      priceList.push(product.productPriceNett * temporarySelectedQty)
+      priceList.push(product.productPriceNett)
       getVariantByProductId().forEach((e) => {
         e.variants.forEach((v) => {
           if (temporarySelectedVariantItems.includes(v.itemVariantId)) {
@@ -229,7 +229,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
         })
       })
     }
-    return priceList.reduce((a, b) => a + b)
+    return priceList.reduce((a, b) => a + b) * temporarySelectedQty
   },
   handleAddItemQty() {
     set(({ temporarySelectedQty }) => ({ temporarySelectedQty: temporarySelectedQty + 1 }))
@@ -239,6 +239,10 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     if (temporarySelectedQty > 1) {
       set({ temporarySelectedQty: temporarySelectedQty - 1 })
     }
+  },
+  isActiveTab(index) {
+    const { activeTab } = get()
+    return activeTab === index + 1
   },
 }))
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Divider } from '@mui/material'
 import { ProductListContainer } from './ProductListContainer'
 import ProductList from './ProductList'
 import ProductTab from './ProductTab'
@@ -8,6 +9,7 @@ export default function SectionProductList() {
   return (
     <ProductListContainer>
       <ProductTab />
+      <Divider />
       <ProductList />
       <VariantDrawer />
     </ProductListContainer>

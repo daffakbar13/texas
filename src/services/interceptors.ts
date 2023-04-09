@@ -26,6 +26,4 @@ export const responseInterceptor = (res: AxiosResponse) => {
   return res.data.data
 }
 
-export const errorInterceptor = (err: any) => {
-  throw new Error(err)
-}
+export const errorInterceptor = (err: any) => err

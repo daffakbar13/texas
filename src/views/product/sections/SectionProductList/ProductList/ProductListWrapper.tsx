@@ -1,6 +1,8 @@
-import { Box, styled } from '@mui/material'
+import { Box, BoxProps, styled } from '@mui/material'
 
-export const ProductListWrapper = styled(Box)(() => ({
+export const ProductListWrapper = styled((props: BoxProps) => (
+  <Box {...props} id="product-list-wrapper" />
+))(() => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
