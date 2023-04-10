@@ -15,6 +15,7 @@ export default function SectionSearch() {
       size="small"
       fullWidth
       placeholder={`${t('search')}...`}
+      autoComplete="off"
       endAdornment={
         <InputAdornment position="end">
           <IconButton aria-label="toggle password visibility" edge="end">

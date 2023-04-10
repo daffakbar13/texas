@@ -35,7 +35,8 @@ export default function SectionPromoBanner() {
                 alt="Promo Banner"
                 fill
                 sizes="100%"
-                priority={i === 0}
+                placeholder="blur"
+                blurDataURL={e}
                 style={{ objectFit: 'cover', borderRadius: 8 }}
               />
             </Box>

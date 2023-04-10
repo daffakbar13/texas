@@ -12,5 +12,6 @@
   "addToCart": "Add To Cart",
   "required": "Required",
   "optional": "Optional",
-  "free": "Free"
+  "free": "Free",
+  "allCategory": "All Categories"
 }

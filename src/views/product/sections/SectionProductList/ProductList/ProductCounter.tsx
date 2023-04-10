@@ -8,6 +8,8 @@ export const ProductCounter = styled((props: BoxProps) => (
     color="primary.main"
     gap={1}
     alignItems="center"
+    zIndex={900}
+    position="relative"
   />
 ))(() => ({
   '& svg': {

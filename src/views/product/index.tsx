@@ -5,18 +5,12 @@ import useProductStore from '@texas/utils/stores/product'
 import { useQuery } from '@tanstack/react-query'
 import { getCart } from '@texas/services/panther'
 import { getProductCategoryList, getProductItemList } from '@texas/services/ruby'
-import { SectionProductList, SectionPromoBanner, SectionSearch } from './sections'
+import { SectionCart, SectionProductList, SectionPromoBanner, SectionSearch } from './sections'
 
 export default function Product() {
-  const {
-    productCategory,
-    productItems,
-    changeSearchKeyword,
-    handleProductData,
-    handleCategoryData,
-    handleCartData,
-    productScrollListener,
-  } = useProductStore()
+  // eslint-disable-next-line operator-linebreak
+  const { changeSearchKeyword, handleProductData, handleCategoryData, handleCartData } =
+    useProductStore()
   const router = useRouter()
   const category = useQuery(['Product Category'], () => getProductCategoryList('123'))
   const product = useQuery(['Product Item'], () => getProductItemList('123'))
@@ -28,12 +22,6 @@ export default function Product() {
       return true
     })
   })
-
-  React.useEffect(() => {
-    if (productCategory?.data && productItems?.data) {
-      productScrollListener(productCategory.data.categories)
-    }
-  }, [router, productCategory?.data, productItems?.data])
 
   React.useEffect(() => {
     handleCategoryData(category)
@@ -53,6 +41,7 @@ export default function Product() {
       <Box display="flex" flexDirection="column" gap={2} overflow="hidden" sx={{ height: '100%' }}>
         <SectionPromoBanner />
         <SectionProductList />
+        <SectionCart />
       </Box>
     </>
   )

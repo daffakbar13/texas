@@ -4,6 +4,8 @@ import { ProductListContainer } from './ProductListContainer'
 import ProductList from './ProductList'
 import ProductTab from './ProductTab'
 import VariantDrawer from './VariantDrawer'
+import CategoryDrawer from './CategoryDrawer'
+import ProductPreviewDrawer from './ProductPreviewDrawer'
 
 export default function SectionProductList() {
   return (
@@ -12,6 +14,8 @@ export default function SectionProductList() {
       <Divider />
       <ProductList />
       <VariantDrawer />
+      <CategoryDrawer />
+      <ProductPreviewDrawer />
     </ProductListContainer>
   )
 }

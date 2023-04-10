@@ -10,15 +10,15 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   selectedProductId: '',
   temporarySelectedVariantItems: [],
   temporarySelectedQty: 1,
+  isCategoryDrawerOpen: false,
+  isProductPreviewDrawerOpen: false,
   changeSearchKeyword: (value, router) => {
-    const { productCategory, productItems, changeViewMode, refetchAllProductData } = get()
+    const { changeViewMode, refetchAllProductData } = get()
     const isNullValue = value.length === 0
     set(() => ({ searchKeyword: value }))
     changeViewMode(isNullValue ? 'list' : 'search', router)
-    if (productCategory && productItems) {
-      if (value.length >= 3) {
-        refetchAllProductData()
-      }
+    if (value.length >= 3) {
+      refetchAllProductData()
     }
   },
   changeViewMode: (view_mode, router) => {
@@ -32,17 +32,15 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   getProductTabScrollableWrapperDocument: () =>
     document.getElementById('product-tab-scrollable-wrapper'),
   onClickTabProductList: (i) => {
-    const { productScrollTo } = get()
-    set(({ allProductOffsetTop }) => {
-      productScrollTo(allProductOffsetTop[i])
-      return {}
-    })
+    const { productScrollTo, getCategoriesOffsetTop } = get()
+    productScrollTo(getCategoriesOffsetTop()[i])
   },
   onScrollProductList: (e) => {
-    const { tabScrollTo } = get()
+    const { tabScrollTo, getCategoriesOffsetTop } = get()
     const { scrollTop } = e.target as any
-    set(({ activeTab, allProductOffsetTop }) => {
-      const newActiveTab = allProductOffsetTop.findLastIndex((o) => scrollTop >= o - 128) + 1
+
+    set(({ activeTab }) => {
+      const newActiveTab = getCategoriesOffsetTop().findLastIndex((o) => scrollTop >= o - 128) + 1
       if (activeTab !== newActiveTab) {
         tabScrollTo(newActiveTab - 1)
       }
@@ -54,16 +52,16 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     const productListWrapper = getProductListWrapperDocument()
     productListWrapper?.scrollTo({ top, behavior: 'smooth' })
   },
-  productScrollListener: (categories: any[]) => {
-    const { getProductCategoryDocument, getProductListWrapperDocument } = get()
-    set(() => {
+  getCategoriesOffsetTop() {
+    const { productCategory, getProductCategoryDocument, getProductListWrapperDocument } = get()
+    if (productCategory?.data) {
       const productListWrapper = getProductListWrapperDocument()
-      const allProductOffsetTop = categories.map((_, i) => {
-        const productCategory = getProductCategoryDocument(i)
-        return (productCategory?.offsetTop || 0) - (productListWrapper?.offsetTop || 0)
+      return productCategory.data.categories.map((_, i) => {
+        const doc = getProductCategoryDocument(i)
+        return (doc?.offsetTop || 0) - (productListWrapper?.offsetTop || 0)
       })
-      return { allProductOffsetTop }
-    })
+    }
+    return [0]
   },
   tabScrollTo: (i) => {
     const { getProductTabScrollableWrapperDocument, getProductTabDocument } = get()
@@ -115,7 +113,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     return generateText(upTo, variantLength)
   },
   handleCategoryData(productCategory) {
-    set(() => ({ productCategory }))
+    set(() => ({ productCategory, activeTab: 1 }))
   },
   handleProductData(productItems) {
     set(() => ({ productItems }))
@@ -125,7 +123,8 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   },
   getProductItemByCategory(categoryId) {
     const { productItems, searchKeyword, getProductByCategoryAndSearch } = get()
-    const isOnSearch = searchKeyword.length > 0
+    const [view_mode] = window.location.pathname.split('/').reverse()
+    const isOnSearch = view_mode === 'search'
     const is3CharSearch = searchKeyword.length >= 3
     if (productItems?.data) {
       const { products } = productItems.data
@@ -243,6 +242,18 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   isActiveTab(index) {
     const { activeTab } = get()
     return activeTab === index + 1
+  },
+  openCategoryDrawer() {
+    set({ isCategoryDrawerOpen: true })
+  },
+  closeCategoryDrawer() {
+    set({ isCategoryDrawerOpen: false })
+  },
+  openProductPreviewDrawer(selectedProductId) {
+    set({ isProductPreviewDrawerOpen: true, selectedProductId })
+  },
+  closeProductPreviewDrawer() {
+    set({ isProductPreviewDrawerOpen: false })
   },
 }))
 

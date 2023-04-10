@@ -26,6 +26,7 @@ export default function ProductList() {
     openDrawerVariant,
     getProductItemByCategory,
     isTriggerLoading,
+    openProductPreviewDrawer,
   } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
@@ -48,7 +49,7 @@ export default function ProductList() {
               )}
               {getProductItemByCategory(c.categoryId).map((p, idx) => (
                 <React.Fragment key={p.productId}>
-                  <ProductWrapper key={idx}>
+                  <ProductWrapper key={idx} onClick={() => openProductPreviewDrawer(p.productId)}>
                     <ProductImage src={p.productImage} />
                     <ProductContent>
                       <ProductNameText>{p.productName}</ProductNameText>
@@ -62,9 +63,12 @@ export default function ProductList() {
                       </ProductInfo>
                       <ProductCounter>
                         <AddCircleOutlineRoundedIcon
-                          {...(p.isProductVariant && {
-                            onClick: () => openDrawerVariant(p.productId),
-                          })}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            if (p.isProductVariant) {
+                              openDrawerVariant(p.productId)
+                            }
+                          }}
                         />
                       </ProductCounter>
                     </ProductContent>

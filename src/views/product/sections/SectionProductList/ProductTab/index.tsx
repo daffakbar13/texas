@@ -14,6 +14,7 @@ export default function ProductTab() {
     isActiveTab,
     onClickTabProductList,
     isTriggerLoading,
+    openCategoryDrawer,
   } = useProductStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
@@ -24,7 +25,11 @@ export default function ProductTab() {
       {!isOnSearch && (
         <ProductTabWrapper>
           <Box>
-            <TexasButton variant="outlined" sx={{ padding: 0.5, minWidth: 0 }}>
+            <TexasButton
+              variant="outlined"
+              onClick={openCategoryDrawer}
+              sx={{ padding: 0.5, minWidth: 0 }}
+            >
               <ListRoundedIcon />
             </TexasButton>
           </Box>

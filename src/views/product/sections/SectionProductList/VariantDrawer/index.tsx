@@ -58,7 +58,7 @@ export default function VariantDrawer() {
       <VariantDrawerWrapper>
         <Typography sx={{ fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
         <VariantLoader />
-        {selectedItem && !isTriggerLoading() && (
+        {isOpen && selectedItem && !isTriggerLoading() && (
           <>
             <Box>
               <Divider />

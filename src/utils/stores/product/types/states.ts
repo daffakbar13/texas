@@ -15,4 +15,6 @@ export type ProductStates = {
   cart?: UseQueryResult<Cart>
   temporarySelectedVariantItems: string[]
   temporarySelectedQty: number
+  isCategoryDrawerOpen: boolean
+  isProductPreviewDrawerOpen: boolean
 }

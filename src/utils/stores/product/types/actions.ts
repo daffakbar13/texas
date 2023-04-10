@@ -13,7 +13,6 @@ import { NextRouter } from 'next/router'
 export type ProductActions = {
   changeSearchKeyword(value: string, router: NextRouter): void
   changeViewMode(viewMode: 'list' | 'search', router: NextRouter): void
-  productScrollListener(categories: any[]): void
   productScrollTo(value: number): void
   tabScrollTo(index: number): void
   onClickTabProductList(index: number): void
@@ -40,4 +39,9 @@ export type ProductActions = {
   handleAddItemQty(): void
   handleReduceItemQty(): void
   isActiveTab(index: number): boolean
+  getCategoriesOffsetTop(): number[]
+  openCategoryDrawer(): void
+  closeCategoryDrawer(): void
+  openProductPreviewDrawer(selectedProductId: string): void
+  closeProductPreviewDrawer(): void
 }
