@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import React from 'react'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import useProductStore from '@texas/utils/stores/product'
@@ -78,6 +78,7 @@ export default function ProductList() {
               ))}
             </React.Fragment>
           ))}
+          <Box minHeight={64} />
         </>
       )}
     </ProductListWrapper>

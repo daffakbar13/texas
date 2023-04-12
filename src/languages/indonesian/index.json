@@ -1,10 +1,13 @@
 {
   "search": "Cari makanan kesukaanmu",
+  "hi": "Hai",
+  "guest": "Pelanggan",
   "selectUpTo": "Pilih {min} sampai {max}",
   "language": "Bahasa",
   "changeLanguage": "Ganti Bahasa",
   "myOrder": "Pesanan",
   "signOut": "Keluar",
+  "signIn": "Masuk",
   "close": "Tutup",
   "english": "Inggris",
   "indonesian": "Indonesia",
@@ -13,5 +16,6 @@
   "required": "Harus Pilih",
   "optional": "Opsional",
   "free": "Gratis",
-  "allCategory": "Semua Kategori"
+  "allCategory": "Semua Kategori",
+  "viewCart": "Lihat Keranjang"
 }

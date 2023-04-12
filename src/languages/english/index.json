@@ -1,10 +1,13 @@
 {
   "search": "Search your favourite foods",
+  "hi": "Hi",
+  "guest": "Guest",
   "selectUpTo": "Select {min} up to {max}",
   "language": "Language",
   "changeLanguage": "Change Language",
   "myOrder": "My Order",
   "signOut": "Sign Out",
+  "signIn": "Sign In",
   "close": "Close",
   "english": "English",
   "indonesian": "Indonesian",
@@ -13,5 +16,6 @@
   "required": "Required",
   "optional": "Optional",
   "free": "Free",
-  "allCategory": "All Categories"
+  "allCategory": "All Categories",
+  "viewCart": "View Cart"
 }

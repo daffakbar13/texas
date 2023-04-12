@@ -44,4 +44,6 @@ export type ProductActions = {
   closeCategoryDrawer(): void
   openProductPreviewDrawer(selectedProductId: string): void
   closeProductPreviewDrawer(): void
+  showCartFloatingButton(): void
+  hideCartFloatingButton(): void
 }

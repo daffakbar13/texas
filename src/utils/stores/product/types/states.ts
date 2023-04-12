@@ -17,4 +17,5 @@ export type ProductStates = {
   temporarySelectedQty: number
   isCategoryDrawerOpen: boolean
   isProductPreviewDrawerOpen: boolean
+  isShowFloatingCartButton: boolean
 }

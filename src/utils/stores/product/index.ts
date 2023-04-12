@@ -12,10 +12,11 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   temporarySelectedQty: 1,
   isCategoryDrawerOpen: false,
   isProductPreviewDrawerOpen: false,
+  isShowFloatingCartButton: false,
   changeSearchKeyword: (value, router) => {
     const { changeViewMode, refetchAllProductData } = get()
     const isNullValue = value.length === 0
-    set(() => ({ searchKeyword: value }))
+    set(() => ({ searchKeyword: value, activeTab: 1 }))
     changeViewMode(isNullValue ? 'list' : 'search', router)
     if (value.length >= 3) {
       refetchAllProductData()
@@ -36,13 +37,17 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     productScrollTo(getCategoriesOffsetTop()[i])
   },
   onScrollProductList: (e) => {
-    const { tabScrollTo, getCategoriesOffsetTop } = get()
+    const { tabScrollTo, getCategoriesOffsetTop, hideCartFloatingButton } = get()
     const { scrollTop } = e.target as any
 
+    hideCartFloatingButton()
+
     set(({ activeTab }) => {
-      const newActiveTab = getCategoriesOffsetTop().findLastIndex((o) => scrollTop >= o - 128) + 1
+      const lastIndex = getCategoriesOffsetTop().findLastIndex((o) => scrollTop >= o - 128)
+      const newActiveTab = lastIndex + 1
+
       if (activeTab !== newActiveTab) {
-        tabScrollTo(newActiveTab - 1)
+        tabScrollTo(lastIndex)
       }
       return { activeTab: newActiveTab }
     })
@@ -113,7 +118,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     return generateText(upTo, variantLength)
   },
   handleCategoryData(productCategory) {
-    set(() => ({ productCategory, activeTab: 1 }))
+    set(() => ({ productCategory }))
   },
   handleProductData(productItems) {
     set(() => ({ productItems }))
@@ -254,6 +259,12 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   },
   closeProductPreviewDrawer() {
     set({ isProductPreviewDrawerOpen: false })
+  },
+  showCartFloatingButton() {
+    set({ isShowFloatingCartButton: true })
+  },
+  hideCartFloatingButton() {
+    set({ isShowFloatingCartButton: false })
   },
 }))
 
