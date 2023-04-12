@@ -48,9 +48,8 @@ export default function SwipeableTemporaryDrawer() {
         <Box display="flex" flexDirection="column">
           <Divider />
           {mainDrawerMenu.map((e, i) => (
-            <>
+            <React.Fragment key={i}>
               <Box
-                key={i}
                 sx={{ cursor: 'pointer', ':hover': { color: 'primary.main' } }}
                 display="flex"
                 alignItems="center"
@@ -63,7 +62,7 @@ export default function SwipeableTemporaryDrawer() {
                 <Typography>{e.name}</Typography>
               </Box>
               <Divider />
-            </>
+            </React.Fragment>
           ))}
           {/* <Box
             sx={{ cursor: 'pointer' }}
