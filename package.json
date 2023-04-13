@@ -40,6 +40,7 @@
     "react-i18next": "^12.2.0",
     "react-responsive-carousel": "^3.2.23",
     "typescript": "5.0.2",
+    "uuid": "^9.0.0",
     "yup": "^1.0.2",
     "zustand": "^4.3.3"
   },
@@ -48,6 +49,7 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@types/humps": "^2.0.2",
     "@types/lodash": "^4.14.191",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "autoprefixer": "^10.4.12",

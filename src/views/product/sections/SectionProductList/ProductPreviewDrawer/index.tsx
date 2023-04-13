@@ -70,7 +70,7 @@ export default function ProductPreviewDrawer() {
             </Box>
           </Box>
           <TexasButton
-            size="medium"
+            // size="medium"
             onClick={() => {
               closeProductPreviewDrawer()
               if (product.isProductVariant) {

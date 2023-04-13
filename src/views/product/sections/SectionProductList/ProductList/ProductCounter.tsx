@@ -14,9 +14,10 @@ export const ProductCounter = styled((props: BoxProps) => (
 ))(() => ({
   '& svg': {
     cursor: 'pointer',
+    fontSize: 28,
   },
   '& .MuiTypography-root': {
-    fontSize: 14,
+    // fontSize: ,
     fontWeight: 'bold',
     lineHeight: '16px',
   },

@@ -3,15 +3,16 @@ import Box from '@mui/material/Box'
 import { useMainStore } from '@texas/utils/stores'
 import Typography from '@mui/material/Typography'
 // import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded'
 import DinnerDiningRoundedIcon from '@mui/icons-material/DinnerDiningRounded'
 import { TexasSwipeableDrawer } from '@texas/components'
 import TranslateRoundedIcon from '@mui/icons-material/TranslateRounded'
 import { useTranslation } from 'react-i18next'
 import { Divider } from '@mui/material'
 
-export default function SwipeableTemporaryDrawer() {
+export default function SwipeableMenuDrawer() {
   const { isMainDrawerOpen, openLanguageDrawer, openMainDrawer, closeMainDrawer } = useMainStore()
+  const { openLoginModal } = useMainStore()
   const { t } = useTranslation()
 
   const mainDrawerMenu = [
@@ -82,6 +83,10 @@ export default function SwipeableTemporaryDrawer() {
             paddingTop={1}
             paddingBottom={1}
             color="primary.main"
+            onClick={(e) => {
+              openLoginModal()
+              closeMainDrawer(e)
+            }}
           >
             <LoginRoundedIcon sx={{ fontSize: 20, color: 'primary.main' }} />
             <Typography>{t('signIn')}</Typography>

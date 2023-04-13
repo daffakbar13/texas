@@ -3,7 +3,8 @@ import {
   SectionHeader,
   SectionLanguageDrawer,
   SectionMain,
-  SectionSwipeableDrawer,
+  SectionMenuDrawer,
+  SectionModalLogin,
 } from './sections'
 
 export default function MainLayout(props: React.PropsWithChildren) {
@@ -12,8 +13,9 @@ export default function MainLayout(props: React.PropsWithChildren) {
     <>
       <SectionHeader />
       <SectionMain>{children}</SectionMain>
-      <SectionSwipeableDrawer />
+      <SectionMenuDrawer />
       <SectionLanguageDrawer />
+      <SectionModalLogin />
     </>
   )
 }

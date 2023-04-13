@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Divider, Stack } from '@mui/material'
 import React from 'react'
 import ListRoundedIcon from '@mui/icons-material/ListRounded'
 import { TexasButton } from '@texas/components'
@@ -21,40 +21,40 @@ export default function ProductTab() {
   const isDrawerVariantOpen = Boolean(showDrawerVariant)
 
   return (
-    <>
-      {!isOnSearch && (
-        <ProductTabWrapper>
-          <Box>
-            <TexasButton
-              variant="outlined"
-              onClick={openCategoryDrawer}
-              sx={{ padding: 0.5, minWidth: 0 }}
-            >
-              <ListRoundedIcon />
-            </TexasButton>
-          </Box>
-          <Box display="flex" id="product-tab-scrollable-wrapper" overflow="scroll" gap={1}>
-            {isTriggerLoading() && !isDrawerVariantOpen && <ProductTabLoader />}
-            {(!isTriggerLoading() || isDrawerVariantOpen) && (
-              <>
-                {productCategory?.data?.categories.map((e, i) => (
-                  <Box key={i} display="flex" alignItems="center">
-                    <TexasButton
-                      key={i}
-                      id={`product-tab-${i + 1}`}
-                      variant={isActiveTab(i) ? 'contained' : 'outlined'}
-                      onClick={() => onClickTabProductList(i)}
-                      sx={{ transitionDuration: '300ms', width: 'max-content' }}
-                    >
-                      {e.categoryName}
-                    </TexasButton>
-                  </Box>
-                ))}
-              </>
-            )}
-          </Box>
-        </ProductTabWrapper>
-      )}
-    </>
+    <ProductTabWrapper minHeight={isOnSearch ? 0 : 52.65} maxHeight={isOnSearch ? 0 : 52.65}>
+      <Stack direction="row" gap={1} alignItems="center" paddingTop={1} paddingBottom={1}>
+        <Box>
+          <TexasButton
+            variant="outlined"
+            onClick={openCategoryDrawer}
+            sx={{ padding: '4px 12px', minWidth: 0 }}
+          >
+            <ListRoundedIcon />
+          </TexasButton>
+        </Box>
+        <Stack id="product-tab-scrollable-wrapper" direction="row" overflow="scroll" gap={1}>
+          {isTriggerLoading() && !isDrawerVariantOpen && <ProductTabLoader />}
+          {(!isTriggerLoading() || isDrawerVariantOpen) && (
+            <>
+              {productCategory?.data?.categories.map((e, i) => (
+                <Box key={i} display="flex" alignItems="center">
+                  <TexasButton
+                    key={i}
+                    id={`product-tab-${i + 1}`}
+                    variant={isActiveTab(i) ? 'contained' : 'outlined'}
+                    size="medium"
+                    onClick={() => onClickTabProductList(i)}
+                    sx={{ transitionDuration: '300ms', width: 'max-content' }}
+                  >
+                    {e.categoryName}
+                  </TexasButton>
+                </Box>
+              ))}
+            </>
+          )}
+        </Stack>
+      </Stack>
+      <Divider />
+    </ProductTabWrapper>
   )
 }

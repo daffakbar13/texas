@@ -9,7 +9,7 @@ export interface ProductCategoryList {
   readonly categories: Categories[]
 }
 
-interface Variant {
+export interface Variant {
   readonly itemVariantCategoryId: string
   readonly itemVariantId: string
   readonly itemVariantName: string

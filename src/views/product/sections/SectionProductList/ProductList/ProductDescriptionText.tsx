@@ -6,7 +6,7 @@ export const ProductDescriptionText = styled(Typography)(({ theme }) => ({
   display: '-webkit-box',
   WebkitLineClamp: '2',
   WebkitBoxOrient: 'vertical',
-  fontSize: 12,
-  lineHeight: '13px',
+  fontSize: 13,
+  lineHeight: '15px',
   color: theme.palette.grey[600],
 }))

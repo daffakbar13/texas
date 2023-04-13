@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { UseQueryResult } from '@tanstack/react-query'
-import { Cart } from '@texas/services/panther/types'
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import { AddCartPayload, Cart } from '@texas/services/panther/types'
 import {
   ProductCategoryList,
   ProductItemList,
@@ -8,6 +8,7 @@ import {
   VariantCategory,
 } from '@texas/services/ruby/types'
 import { VARIANT_GROUP_DUMMY } from '@texas/views/product/constants'
+import { AxiosResponse } from 'axios'
 import { NextRouter } from 'next/router'
 
 export type ProductActions = {
@@ -46,4 +47,9 @@ export type ProductActions = {
   closeProductPreviewDrawer(): void
   showCartFloatingButton(): void
   hideCartFloatingButton(): void
+  isHaveCart(): boolean
+  getProductQtyInCart(itemId: string): number
+  getTotalPriceInCart(): number
+  handleAddToCart(mutate: UseMutationResult<AxiosResponse, unknown, void, unknown>['mutate']): void
+  getAddToCartPayload(): AddCartPayload
 }

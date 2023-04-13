@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Box } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import {
   ILDummyPromoBanner1,
   ILDummyPromoBanner2,
@@ -17,10 +17,17 @@ export default function SectionPromoBanner() {
   const { getCarouselHeight } = useMainStore()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
+  const wrapperHeight = getCarouselHeight() + 16
 
   return (
-    <>
-      {!isOnSearch && (
+    <Stack
+      justifyContent="center"
+      minHeight={isOnSearch ? 0 : wrapperHeight}
+      maxHeight={isOnSearch ? 0 : wrapperHeight}
+      overflow="hidden"
+      sx={{ transitionDuration: '300ms' }}
+    >
+      <Box width="100%">
         <Carousel infiniteLoop showStatus={false} showThumbs={false} autoPlay>
           {[
             ILDummyPromoBanner1.src,
@@ -42,7 +49,7 @@ export default function SectionPromoBanner() {
             </Box>
           ))}
         </Carousel>
-      )}
-    </>
+      </Box>
+    </Stack>
   )
 }

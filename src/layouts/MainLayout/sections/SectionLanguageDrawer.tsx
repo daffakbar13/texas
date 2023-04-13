@@ -31,7 +31,7 @@ export default function SwipeableTemporaryDrawer() {
       onOpen={openLanguageDrawer}
     >
       <Box display="flex" flexDirection="column" gap={2} padding={2}>
-        <Typography sx={{ fontWeight: 'bold' }}>{t('changeLanguage')}</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>{t('changeLanguage')}</Typography>
         <FormControl size="small">
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
@@ -42,18 +42,16 @@ export default function SwipeableTemporaryDrawer() {
             {languages.map((e, i) => (
               <FormControlLabel
                 key={i}
-                sx={{ '& span': { fontSize: 14 } }}
+                // sx={{ '& span': { fontSize: 14 } }}
                 value={e.value}
                 checked={language === e.value}
-                control={<Radio size="small" />}
+                control={<Radio />}
                 label={t(e.label)}
               />
             ))}
           </RadioGroup>
         </FormControl>
-        <TexasButton size="medium" onClick={closeLanguageDrawer}>
-          {t('close')}
-        </TexasButton>
+        <TexasButton onClick={closeLanguageDrawer}>{t('close')}</TexasButton>
       </Box>
     </TexasSwipeableDrawer>
   )

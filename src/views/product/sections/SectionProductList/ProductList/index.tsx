@@ -1,8 +1,12 @@
-import { Box, Divider } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import React from 'react'
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
+// import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import useProductStore from '@texas/utils/stores/product'
 import { useRouter } from 'next/router'
+import { TexasButton } from '@texas/components'
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
+import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
+import { useTranslation } from 'react-i18next'
 import { ProductListWrapper } from './ProductListWrapper'
 import { ProductCategoryWrapper } from './ProductCategoryWrapper'
 import { ProductCategoryText } from './ProductCategoryText'
@@ -22,18 +26,19 @@ export default function ProductList() {
   const {
     productCategory,
     showDrawerVariant,
-    onScrollProductList,
+    getProductQtyInCart,
     openDrawerVariant,
     getProductItemByCategory,
     isTriggerLoading,
     openProductPreviewDrawer,
   } = useProductStore()
+  const { t } = useTranslation()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
   const isDrawerVariantOpen = Boolean(showDrawerVariant)
 
   return (
-    <ProductListWrapper {...(!isTriggerLoading() && { onScroll: onScrollProductList })}>
+    <ProductListWrapper>
       {isTriggerLoading() && !isDrawerVariantOpen && <ProductLoader />}
       {(!isTriggerLoading() || isDrawerVariantOpen) && (
         <>
@@ -62,14 +67,42 @@ export default function ProductList() {
                         <PromoLabel />
                       </ProductInfo>
                       <ProductCounter>
-                        <AddCircleOutlineRoundedIcon
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            if (p.isProductVariant) {
-                              openDrawerVariant(p.productId)
-                            }
-                          }}
-                        />
+                        {getProductQtyInCart(p.productId) > 0 && (
+                          <>
+                            <RemoveCircleOutlineRoundedIcon
+                              onClick={(event) => {
+                                event.stopPropagation()
+                                if (p.isProductVariant) {
+                                  openDrawerVariant(p.productId)
+                                }
+                              }}
+                            />
+                            <Typography>{getProductQtyInCart(p.productId)}</Typography>
+                            <AddCircleOutlineRoundedIcon
+                              onClick={(event) => {
+                                event.stopPropagation()
+                                if (p.isProductVariant) {
+                                  openDrawerVariant(p.productId)
+                                }
+                              }}
+                            />
+                          </>
+                        )}
+                        {getProductQtyInCart(p.productId) === 0 && (
+                          <TexasButton
+                            variant="outlined"
+                            size="medium"
+                            sx={{ padding: '2px 16px', fontWeight: 'bold' }}
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              if (p.isProductVariant) {
+                                openDrawerVariant(p.productId)
+                              }
+                            }}
+                          >
+                            {t('add')}
+                          </TexasButton>
+                        )}
                       </ProductCounter>
                     </ProductContent>
                   </ProductWrapper>

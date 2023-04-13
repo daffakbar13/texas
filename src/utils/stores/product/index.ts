@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { Variant } from '@texas/services/ruby/types'
 import { ProductStates } from './types/states'
 import { ProductActions } from './types/actions'
 
@@ -44,7 +45,7 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
 
     set(({ activeTab }) => {
       const lastIndex = getCategoriesOffsetTop().findLastIndex((o) => scrollTop >= o - 128)
-      const newActiveTab = lastIndex + 1
+      const newActiveTab = (lastIndex < 0 ? 0 : lastIndex) + 1
 
       if (activeTab !== newActiveTab) {
         tabScrollTo(lastIndex)
@@ -82,7 +83,12 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     set({ selectedProductId, showDrawerVariant: 'list' })
   },
   closeDrawerVariant: () => {
-    set({ showDrawerVariant: false, temporarySelectedVariantItems: [], temporarySelectedQty: 1 })
+    set({
+      showDrawerVariant: false,
+      temporarySelectedVariantItems: [],
+      temporarySelectedQty: 1,
+      isShowFloatingCartButton: true,
+    })
     setTimeout(() => {
       set(() => ({ selectedProductId: '' }))
     }, 300)
@@ -265,6 +271,76 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
   },
   hideCartFloatingButton() {
     set({ isShowFloatingCartButton: false })
+  },
+  isHaveCart() {
+    const { cart } = get()
+    if (cart?.data) {
+      return cart.data.items.length > 0
+    }
+    return false
+  },
+  getProductQtyInCart(itemId) {
+    const { cart } = get()
+    const quantities = [0]
+    if (cart?.data) {
+      cart.data.items.filter((c) => c.itemId === itemId).forEach((c) => quantities.push(c.itemQty))
+    }
+
+    return quantities.reduce((a, b) => a + b)
+  },
+  getTotalPriceInCart() {
+    const { cart } = get()
+    return cart?.data?.totalOrder || 0
+  },
+  handleAddToCart(mutate) {
+    mutate()
+  },
+  getAddToCartPayload() {
+    const {
+      temporarySelectedQty,
+      temporarySelectedVariantItems,
+      cart,
+      getProductById,
+      getVariantByProductId,
+      getItemSubTotal,
+    } = get()
+    const product = getProductById()
+    const v = getVariantByProductId()
+    const selectedVariant: Variant[] = []
+    v.forEach((e) => {
+      e.variants.forEach((e1) => {
+        const isInclude = temporarySelectedVariantItems.includes(e1.itemVariantId)
+        if (isInclude) {
+          selectedVariant.push(e1)
+        }
+      })
+    })
+    const totalVariants = temporarySelectedVariantItems.length
+    const totalOrder = (cart?.data?.totalOrder || 0) + getItemSubTotal()
+    return {
+      merchantId: '123456789023',
+      userId: 'guest',
+      items: [
+        ...(cart?.data?.items || []),
+        {
+          itemId: product?.productId || '',
+          itemName: product?.productName || '',
+          itemCategoryId: product?.productCategoryId || '',
+          itemQty: temporarySelectedQty,
+          itemPrice: product?.productPriceNett || 0,
+          isItemAvailable: Boolean(product?.productStockAvailable),
+          totalVariants,
+          variants: selectedVariant.map((e) => ({
+            variantId: e.itemVariantId,
+            variantName: e.itemVariantName,
+            variantCategoryId: e.itemVariantCategoryId,
+            price: e.itemVariantPrice,
+          })),
+          itemSubTotal: getItemSubTotal(),
+        },
+      ],
+      totalOrder,
+    }
   },
 }))
 

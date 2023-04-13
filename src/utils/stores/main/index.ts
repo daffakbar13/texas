@@ -10,6 +10,8 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
   leftContent: 0,
   rightContent: 0,
   sideOffset: 0,
+  isLoginModalOpen: false,
+  signInMode: 'sign in',
   togleMainDrawer: (open) => (event) =>
     set(() => {
       if (event) {
@@ -75,6 +77,19 @@ const useMainStore = create<MainActions & MainStates>()((set, get) => ({
     const carouselHeight = carouselWidth / 2.76
 
     return carouselHeight
+  },
+  openLoginModal() {
+    set({ isLoginModalOpen: true })
+  },
+  closeLoginModal() {
+    set({ isLoginModalOpen: false, signInMode: 'sign in' })
+  },
+  switchSignInMode() {
+    set((s) => ({ signInMode: s.signInMode === 'sign in' ? 'sign up' : 'sign in' }))
+  },
+  isSignInMode() {
+    const { signInMode } = get()
+    return signInMode === 'sign in'
   },
 }))
 

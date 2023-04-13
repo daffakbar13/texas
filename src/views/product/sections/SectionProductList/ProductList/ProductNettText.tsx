@@ -1,7 +1,7 @@
 import { Typography, styled } from '@mui/material'
 
 export const ProductNettText = styled(Typography)(({ theme }) => ({
-  fontSize: 13,
+  fontSize: 14,
   fontWeight: 'bold',
   color: theme.palette.primary.main,
 }))

@@ -6,6 +6,8 @@ import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutl
 import useProductStore from '@texas/utils/stores/product'
 import { useMainStorage } from '@texas/utils/storages'
 import { useTranslation } from 'react-i18next'
+import { useMutation } from '@tanstack/react-query'
+import { addCart } from '@texas/services/panther'
 import { ProductDescriptionText } from '../ProductList/ProductDescriptionText'
 import { ProductNameText } from '../ProductList/ProductNameText'
 import { ProductNettText } from '../ProductList/ProductNettText'
@@ -29,6 +31,7 @@ export default function VariantDrawer() {
   const { t } = useTranslation()
   const { language } = useMainStorage()
   const {
+    cart,
     showDrawerVariant,
     selectedProductId,
     temporarySelectedQty,
@@ -43,10 +46,18 @@ export default function VariantDrawer() {
     getItemSubTotal,
     handleAddItemQty,
     handleReduceItemQty,
+    getAddToCartPayload,
   } = useProductStore()
   const isOpen = Boolean(showDrawerVariant)
   const selectedItem = getProductById()
   const variantList = getVariantByProductId()
+  const addToCart = useMutation({
+    mutationFn: () => addCart(getAddToCartPayload()),
+    onSuccess() {
+      cart?.refetch()
+      closeDrawerVariant()
+    },
+  })
 
   return (
     <TexasSwipeableDrawer
@@ -56,7 +67,7 @@ export default function VariantDrawer() {
       onOpen={() => openDrawerVariant(selectedProductId)}
     >
       <VariantDrawerWrapper>
-        <Typography sx={{ fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
+        <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
         <VariantLoader />
         {isOpen && selectedItem && !isTriggerLoading() && (
           <>
@@ -130,7 +141,6 @@ export default function VariantDrawer() {
                             </VariantNamePriceWrapper>
                             <CheckboxOrRadio
                               checked={isCheckedVariant(v.itemVariantId)}
-                              size="small"
                               sx={{ padding: 0 }}
                             />
                           </VariantItemWrapper>
@@ -142,7 +152,7 @@ export default function VariantDrawer() {
                 )
               })}
             </VariantListWrapper>
-            <TexasButton size="medium" onClick={closeDrawerVariant}>
+            <TexasButton onClick={() => addToCart.mutate()}>
               {t('addToCart')} - {getItemSubTotal().toLocaleString()}
             </TexasButton>
           </>

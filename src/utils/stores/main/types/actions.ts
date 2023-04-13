@@ -10,4 +10,8 @@ export type MainActions = {
   openLanguageDrawer(): void
   closeLanguageDrawer(): void
   getCarouselHeight(): number
+  openLoginModal(): void
+  closeLoginModal(): void
+  switchSignInMode(): void
+  isSignInMode(): boolean
 }

@@ -4,9 +4,14 @@ import { camelizeKeys, decamelizeKeys } from 'humps'
 export const requestInterceptor = (config: InternalAxiosRequestConfig) => {
   const newConfig = { ...config }
   newConfig.url = `v1/${config.url}`
+  const userId = sessionStorage.getItem('main-storage')
 
   if (newConfig.headers['Content-Type'] === 'multipart/form-data') {
     return newConfig
+  }
+
+  if (userId) {
+    newConfig.headers['device-id'] = JSON.parse(userId).state.deviceId
   }
 
   if (config.params) {

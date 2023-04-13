@@ -27,5 +27,6 @@ export interface AddCartPayload {
 export interface Cart {
   readonly userId: string
   readonly merchantId: string
-  readonly items: Items
+  readonly items: Items[]
+  readonly totalOrder: number
 }

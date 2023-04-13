@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Stack } from '@mui/material'
 import React from 'react'
 import { useRouter } from 'next/router'
 import useProductStore from '@texas/utils/stores/product'
@@ -8,9 +8,14 @@ import { getProductCategoryList, getProductItemList } from '@texas/services/ruby
 import { SectionCart, SectionProductList, SectionPromoBanner, SectionSearch } from './sections'
 
 export default function Product() {
-  // eslint-disable-next-line operator-linebreak
-  const { changeSearchKeyword, handleProductData, handleCategoryData, handleCartData } =
-    useProductStore()
+  const {
+    changeSearchKeyword,
+    handleProductData,
+    handleCategoryData,
+    handleCartData,
+    isTriggerLoading,
+    onScrollProductList,
+  } = useProductStore()
   const router = useRouter()
   const category = useQuery(['Product Category'], () => getProductCategoryList('123'))
   const product = useQuery(['Product Item'], () => getProductItemList('123'))
@@ -36,13 +41,17 @@ export default function Product() {
   }, [cart.isFetching])
 
   return (
-    <>
+    <Stack
+      id="product-list-wrapper"
+      direction="column"
+      overflow="auto"
+      position="relative"
+      {...(!isTriggerLoading() && { onScroll: onScrollProductList })}
+    >
       <SectionSearch />
-      <Box display="flex" flexDirection="column" gap={2} overflow="hidden" sx={{ height: '100%' }}>
-        <SectionPromoBanner />
-        <SectionProductList />
-        <SectionCart />
-      </Box>
-    </>
+      <SectionPromoBanner />
+      <SectionProductList />
+      <SectionCart />
+    </Stack>
   )
 }

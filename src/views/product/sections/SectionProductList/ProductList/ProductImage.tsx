@@ -8,8 +8,8 @@ export default function ProductImage(props: { src: string }) {
     <Image
       src={src || '/'}
       alt="Product Image"
-      height={96}
-      width={96}
+      height={80}
+      width={80}
       style={{ borderRadius: 8 }}
     />
   )

@@ -6,7 +6,7 @@ export const ProductNameText = styled(Typography)(() => ({
   display: '-webkit-box',
   WebkitLineClamp: '2',
   WebkitBoxOrient: 'vertical',
-  fontSize: 13,
+  fontSize: 15,
   fontWeight: 'bold',
-  lineHeight: '14px',
+  lineHeight: '17px',
 }))
