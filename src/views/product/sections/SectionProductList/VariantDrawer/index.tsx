@@ -8,6 +8,7 @@ import { useMainStorage } from '@texas/utils/storages'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@tanstack/react-query'
 import { addCart } from '@texas/services/panther'
+import { useIsFetching } from '@texas/utils/hooks'
 import { ProductDescriptionText } from '../ProductList/ProductDescriptionText'
 import { ProductNameText } from '../ProductList/ProductNameText'
 import { ProductNettText } from '../ProductList/ProductNettText'
@@ -40,7 +41,6 @@ export default function VariantDrawer() {
     generateSelectionText,
     getVariantByProductId,
     getProductById,
-    isTriggerLoading,
     isCheckedVariant,
     handleAddVariantItem,
     getItemSubTotal,
@@ -58,6 +58,7 @@ export default function VariantDrawer() {
       closeDrawerVariant()
     },
   })
+  const isFetching = useIsFetching('productCategory', 'productItems', 'cart')
 
   return (
     <TexasSwipeableDrawer
@@ -69,7 +70,7 @@ export default function VariantDrawer() {
       <VariantDrawerWrapper>
         <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>{t('addNewItem')}</Typography>
         <VariantLoader />
-        {isOpen && selectedItem && !isTriggerLoading() && (
+        {isOpen && selectedItem && !isFetching && (
           <>
             <Box>
               <Divider />

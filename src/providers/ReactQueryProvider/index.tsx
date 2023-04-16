@@ -1,8 +1,9 @@
 import React from 'react'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import Queries from './Queries'
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnMount: false,
@@ -17,8 +18,9 @@ const ReactQueryProvider = (props: React.PropsWithChildren) => {
   const { children } = props
   return (
     <QueryClientProvider client={queryClient}>
+      <Queries />
       {children}
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }

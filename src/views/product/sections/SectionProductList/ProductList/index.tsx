@@ -7,6 +7,7 @@ import { TexasButton } from '@texas/components'
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import { useTranslation } from 'react-i18next'
+import { useIsFetching, useTexasQuery } from '@texas/utils/hooks'
 import { ProductListWrapper } from './ProductListWrapper'
 import { ProductCategoryWrapper } from './ProductCategoryWrapper'
 import { ProductCategoryText } from './ProductCategoryText'
@@ -24,25 +25,25 @@ import { ProductCounter } from './ProductCounter'
 
 export default function ProductList() {
   const {
-    productCategory,
     showDrawerVariant,
     getProductQtyInCart,
     openDrawerVariant,
     getProductItemByCategory,
-    isTriggerLoading,
     openProductPreviewDrawer,
   } = useProductStore()
   const { t } = useTranslation()
   const router = useRouter()
   const isOnSearch = router.query.view_mode === 'search'
   const isDrawerVariantOpen = Boolean(showDrawerVariant)
+  const isFetching = useIsFetching('productCategory', 'productItems', 'cart')
+  const productCategory = useTexasQuery('productCategory')
 
   return (
     <ProductListWrapper>
-      {isTriggerLoading() && !isDrawerVariantOpen && <ProductLoader />}
-      {(!isTriggerLoading() || isDrawerVariantOpen) && (
+      {isFetching && !isDrawerVariantOpen && <ProductLoader />}
+      {(!isFetching || isDrawerVariantOpen) && (
         <>
-          {productCategory?.data?.categories.map((c, i) => (
+          {productCategory.data?.categories.map((c, i) => (
             <React.Fragment key={i}>
               {!isOnSearch && (
                 <>

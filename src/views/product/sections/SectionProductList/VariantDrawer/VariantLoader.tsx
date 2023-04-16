@@ -1,14 +1,14 @@
 import { Box, Divider, Skeleton } from '@mui/material'
 import * as React from 'react'
-import useProductStore from '@texas/utils/stores/product'
+import { useIsFetching } from '@texas/utils/hooks'
 import { ProductWrapper } from '../ProductList/ProductWrapper'
 
 export default function VariantLoader() {
-  const { isTriggerLoading } = useProductStore()
+  const isFetching = useIsFetching('productCategory', 'productItems', 'cart')
 
   return (
     <>
-      {isTriggerLoading() && (
+      {isFetching && (
         <>
           <Box>
             <Divider />
