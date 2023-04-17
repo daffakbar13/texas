@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { Variant } from '@texas/services/ruby/types'
+import { useTexasQuery } from '@texas/utils/hooks'
 import { ProductStates } from './types/states'
 import { ProductActions } from './types/actions'
 
@@ -133,12 +134,13 @@ const useProductStore = create<ProductActions & ProductStates>()((set, get) => (
     set(() => ({ cart }))
   },
   getProductItemByCategory(categoryId) {
-    const { productItems, searchKeyword, getProductByCategoryAndSearch } = get()
+    const { searchKeyword, getProductByCategoryAndSearch } = get()
+    const productItems = useTexasQuery.getData('productItems')
     const [view_mode] = window.location.pathname.split('/').reverse()
     const isOnSearch = view_mode === 'search'
     const is3CharSearch = searchKeyword.length >= 3
-    if (productItems?.data) {
-      const { products } = productItems.data
+    if (productItems) {
+      const { products } = productItems
       const filterByCategory = products.filter((e) => e.productCategoryId === categoryId)
       const filterWithSearch = getProductByCategoryAndSearch(filterByCategory)
       if (isOnSearch) {

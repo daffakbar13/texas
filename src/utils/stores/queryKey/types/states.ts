@@ -3,7 +3,7 @@ import { Cart } from '@texas/services/panther/types'
 import { ProductCategoryList, ProductItemList } from '@texas/services/ruby/types'
 
 export type QueryKeyStates = {
-  productCategory: UseQueryOptions<ProductCategoryList, unknown, ProductCategoryList, string[]>
-  productItems: UseQueryOptions<ProductItemList, unknown, ProductItemList, string[]>
-  cart: UseQueryOptions<Cart, unknown, Cart, string[]>
+  productCategory: UseQueryOptions<ProductCategoryList> & { queryKey: string[] }
+  productItems: UseQueryOptions<ProductItemList> & { queryKey: string[] }
+  cart: UseQueryOptions<Cart> & { queryKey: string[] }
 }

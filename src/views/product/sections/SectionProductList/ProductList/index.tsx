@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { Box, Divider, Typography } from '@mui/material'
 import React from 'react'
-// import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import useProductStore from '@texas/utils/stores/product'
 import { useRouter } from 'next/router'
 import { TexasButton } from '@texas/components'
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded'
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded'
 import { useTranslation } from 'react-i18next'
 import { useIsFetching, useTexasQuery } from '@texas/utils/hooks'
@@ -37,6 +37,8 @@ export default function ProductList() {
   const isDrawerVariantOpen = Boolean(showDrawerVariant)
   const isFetching = useIsFetching('productCategory', 'productItems', 'cart')
   const productCategory = useTexasQuery('productCategory')
+  const productItems = useTexasQuery('productItems')
+  const cart = useTexasQuery('cart')
 
   return (
     <ProductListWrapper>
@@ -53,7 +55,7 @@ export default function ProductList() {
                   <Divider />
                 </>
               )}
-              {getProductItemByCategory(c.categoryId).map((p, idx) => (
+              {/* {getProductItemByCategory(c.categoryId).map((p, idx) => (
                 <React.Fragment key={p.productId}>
                   <ProductWrapper key={idx} onClick={() => openProductPreviewDrawer(p.productId)}>
                     <ProductImage src={p.productImage} />
@@ -109,7 +111,7 @@ export default function ProductList() {
                   </ProductWrapper>
                   <Divider />
                 </React.Fragment>
-              ))}
+              ))} */}
             </React.Fragment>
           ))}
           <Box minHeight={64} />
