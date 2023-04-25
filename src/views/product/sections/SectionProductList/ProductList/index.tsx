@@ -55,7 +55,7 @@ export default function ProductList() {
                   <Divider />
                 </>
               )}
-              {/* {getProductItemByCategory(c.categoryId).map((p, idx) => (
+              {getProductItemByCategory(c.categoryId).map((p, idx) => (
                 <React.Fragment key={p.productId}>
                   <ProductWrapper key={idx} onClick={() => openProductPreviewDrawer(p.productId)}>
                     <ProductImage src={p.productImage} />
@@ -111,7 +111,7 @@ export default function ProductList() {
                   </ProductWrapper>
                   <Divider />
                 </React.Fragment>
-              ))} */}
+              ))}
             </React.Fragment>
           ))}
           <Box minHeight={64} />
